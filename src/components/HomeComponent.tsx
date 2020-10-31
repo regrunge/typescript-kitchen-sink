@@ -9,7 +9,9 @@ class HomeComponent extends React.Component<{}>{
         return (
             <View style={styles.container}>
                 <Text style={styles.topText}>Hello Component</Text>
+                
                 <ConstAndLetTutorial />
+
                 <Text style={styles.normalText}>arrays</Text>
                 <Text style={styles.normalText}>objects</Text>
                 <Text style={styles.normalText}>functions and closures</Text>
