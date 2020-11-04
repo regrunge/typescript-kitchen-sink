@@ -8,8 +8,8 @@ class HomeComponent extends React.Component<{}>{
     render(){
         return (
             <View style={styles.container}>
-                <Text style={styles.topText}>Hello Component</Text>
-                
+                <Text style={styles.topText}>Hello World!</Text>
+
                 <ConstAndLetTutorial />
 
                 <Text style={styles.normalText}>arrays</Text>
