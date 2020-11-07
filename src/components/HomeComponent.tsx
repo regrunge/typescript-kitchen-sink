@@ -1,18 +1,40 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import ConstAndLetTutorial from './tutorial/ConstAndLetTutorial';
+import {View, Text, StyleSheet, Button} from 'react-native';
+import CAT, { GenderEnum } from './tutorial/ConstAndLetTutorial';
+import ArraysTutorial from './tutorial/ArraysTutorial';
 
 // https://fettblog.eu/typescript-react/components/#class-components
 
-class HomeComponent extends React.Component<{}>{
+interface IState {
+    showAllDemos: boolean;
+}
+
+class HomeComponent extends React.Component<{}, IState>{
+    state = {
+        showAllDemos: false,
+    };
+
+    toggleDemo = () => {
+        this.setState(
+            (prevState) => {
+                return { showAllDemos: !prevState.showAllDemos }
+            }
+        );
+    };
+
     render(){
         return (
             <View style={styles.container}>
+                <Button title={'Show demos'} onPress={this.toggleDemo}/>
                 <Text style={styles.topText}>Hello World!</Text>
 
-                <ConstAndLetTutorial />
+                <CAT
+                    title={'CONST AND LET' + GenderEnum.male}
+                    subtitle={1}
+                    showDemo={this.state.showAllDemos}
+                />
 
-                <Text style={styles.normalText}>arrays</Text>
+                <ArraysTutorial />
                 <Text style={styles.normalText}>objects</Text>
                 <Text style={styles.normalText}>functions and closures</Text>
                 <Text style={styles.normalText}>classes</Text>
