@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import CAT, { GenderEnum } from './tutorial/ConstAndLetTutorial';
 import ArraysTutorial from './tutorial/ArraysTutorial';
+import ObjectsFunctions from './tutorial/ObjectsFunctions';
 
 // https://fettblog.eu/typescript-react/components/#class-components
 
@@ -33,7 +34,7 @@ class HomeComponent extends React.Component<{}, IState>{
                     subtitle={1}
                     showDemo={this.state.showAllDemos}
                 />
-
+                <ObjectsFunctions />
                 <ArraysTutorial />
                 <Text style={styles.normalText}>objects</Text>
                 <Text style={styles.normalText}>functions and closures</Text>
