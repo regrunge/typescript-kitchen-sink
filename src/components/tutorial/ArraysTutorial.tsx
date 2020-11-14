@@ -25,6 +25,10 @@ const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
 
     const myArray = new Array();
 
+    const initialArray = ['banana', 'apple', 'orange'];
+    const mappedArray = initialArray.map( (item) => { return (<Text>{item}</Text>)});
+    const filteredArray = initialArray.filter((fruit) => { return (fruit !== 'apple') } )
+
     // TODO: checkout...
     // .map()
     // .filter()
@@ -44,7 +48,12 @@ const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
 
     return (
         <View>
+
+           {filteredArray.map(fruit => <Text>{fruit}</Text> )}
+
             <Text>Arrays tutorial</Text>
+
+
         </View>
     );
 };
