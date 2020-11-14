@@ -36,9 +36,7 @@ class HomeComponent extends React.Component<{}, IState>{
                 />
                 <ObjectsFunctions />
                 <ArraysTutorial />
-                <Text style={styles.normalText}>objects</Text>
-                <Text style={styles.normalText}>functions and closures</Text>
-                <Text style={styles.normalText}>classes</Text>
+
                 <Text style={styles.normalText}>---</Text>
                 <Text style={styles.normalText}>React</Text>
                 <Text style={styles.normalText}>React-Native</Text>
