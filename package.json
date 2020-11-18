@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "fontsource-roboto": "^3.0.3",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-material-ui": "^1.30.1",

@@ -1,8 +1,14 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { TextField, IconButton } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Button from '@material-ui/core/Button'
+import SaveIcon from '@material-ui/icons/Save'
 import DeleteIcon from '@material-ui/icons/Delete'
+import Checkbox from '@material-ui/core/Checkbox'
+
+import Container from '@material-ui/core/Container'
+
 
 
 
@@ -10,12 +16,45 @@ type ArraysTutorialProps = {
 
 }
 
-interface TodoItem {
-  id: number
-  value: string
+function CheckboxExample() {
+  const [check, setChecked] = React.useState(true)
+  return (
+     <FormControlLabel
+        control={<Checkbox
+          check={check}
+          icon={<DeleteIcon />}
+          checkedIcon={<SaveIcon />}
+          onChecked={(e) => setChecked(e.target.checked)}
+          inputProps={{
+            'arial-label': 'secondary checkbox'
+          }}
+      />}
+      label='Testing Checkbox'
+     />
+
+  );
 }
 
-let count = 1
+  function ArraysTutorial() {
+    return (
+      <Container>
+      <CheckboxExample />
+        <ButtonGroup variant='contained'>
+        <Button startIcon={<SaveIcon />}
+        size='large'
+        color='primary'>
+          Save
+        </Button>
+        <Button startIcon={<DeleteIcon />}
+        size='large'
+        color='secondary'>
+          Discard
+        </Button>
+        </ButtonGroup>
+      </Container>
+    );
+  }
+
 
 
 class ExampleClass {
@@ -36,45 +75,8 @@ const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
     console.log(example.propertyOne);
     console.log(example.methodOne());
 
-export const ArraysTutorial: React.FC = () => {
-  const [list, setList] = useState<TodoItem[]>([{id: 0, value: ''}])
-
-  const handleChange = (value: string, id: TodoItem['id']) => {
-    setList(prev => prev.map(item => item.id === id ? {... item, value} : item))
-  }
-
-  const handleDelete = (id: TodoItem['id']) => {
-  setList(prev => prev.filter(item => item.id !== id))
-  }
-
-  const handleAdd = (index; number) => {
-    const newItem = {id: count++, value: ''}
-    setList(prev => [...prev.slice(0, index + 1), newItem, ...prev.slice(index + 1)])
-  }
-
-  return (
-    <div>
-    {list.map((item, index) => (
-      <div key={item.id}>
-      <TextField
-        value={item.value}
-        onChange={e => handleChange(e.currentTarget.value, item.id)}
-      />
-      <IconButton onclick={() => handleAdd(index)}>
-         <AddIcon />
-      </IconButton>
-      {list.length > 1 && (
-        <IconButton onclick={() => handleDelete(item.id)}>
-           <DeleteIcon />
-        </IconButton>
-      )}
 
 
-      </div>
-    ))}
-    </div>
-  )
-}
 
 
     const myArray = new Array();
