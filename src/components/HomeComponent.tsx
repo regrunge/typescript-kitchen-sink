@@ -1,5 +1,6 @@
 import React from 'react';
 import  {View, Text, StyleSheet} from 'react-native';
+import List from './Things/List';
 
 class HomeComponent extends React.Component {
     state = {
@@ -13,6 +14,7 @@ class HomeComponent extends React.Component {
                 <Text>Timer</Text>
                 <Text>List</Text>
                 <Text>CRUD item (Create Read Update Delete)</Text>
+                <List />
             </View>
         );
     }

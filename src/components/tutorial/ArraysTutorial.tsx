@@ -1,22 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { TextField, IconButton } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete'
-
-
 
 type ArraysTutorialProps = {
 
 }
-
-interface TodoItem {
-  id: number
-  value: string
-}
-
-let count = 1
-
 
 class ExampleClass {
     propertyOne: string;
@@ -31,50 +18,16 @@ class ExampleClass {
     }
 }
 
-const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
+
+
+
+export const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
     const example = new ExampleClass('bad');
     console.log(example.propertyOne);
     console.log(example.methodOne());
 
-export const ArraysTutorial: React.FC = () => {
-  const [list, setList] = useState<TodoItem[]>([{id: 0, value: ''}])
-
-  const handleChange = (value: string, id: TodoItem['id']) => {
-    setList(prev => prev.map(item => item.id === id ? {... item, value} : item))
-  }
-
-  const handleDelete = (id: TodoItem['id']) => {
-  setList(prev => prev.filter(item => item.id !== id))
-  }
-
-  const handleAdd = (index; number) => {
-    const newItem = {id: count++, value: ''}
-    setList(prev => [...prev.slice(0, index + 1), newItem, ...prev.slice(index + 1)])
-  }
-
-  return (
-    <div>
-    {list.map((item, index) => (
-      <div key={item.id}>
-      <TextField
-        value={item.value}
-        onChange={e => handleChange(e.currentTarget.value, item.id)}
-      />
-      <IconButton onclick={() => handleAdd(index)}>
-         <AddIcon />
-      </IconButton>
-      {list.length > 1 && (
-        <IconButton onclick={() => handleDelete(item.id)}>
-           <DeleteIcon />
-        </IconButton>
-      )}
 
 
-      </div>
-    ))}
-    </div>
-  )
-}
 
 
     const myArray = new Array();
