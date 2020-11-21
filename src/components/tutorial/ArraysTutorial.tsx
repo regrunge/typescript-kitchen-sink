@@ -1,18 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Button from '@material-ui/core/Button'
-import SaveIcon from '@material-ui/icons/Save'
-import DeleteIcon from '@material-ui/icons/Delete'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-
-import Container from '@material-ui/core/Container'
-
-
-
-
 type ArraysTutorialProps = {
 
 }
@@ -30,68 +18,10 @@ class ExampleClass {
     }
 }
 
-const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
-    const example = new ExampleClass('bad');
-    console.log(example.propertyOne);
-    console.log(example.methodOne());
 
 
 
-function CheckboxExample() {
-  const [check, setChecked] = React.useState(true)
-  return (
-     <FormControlLabel
-        control={<Checkbox
-          check={check}
-          icon={<DeleteIcon />}
-          checkedIcon={<SaveIcon />}
-          onChecked={(e) => setChecked(e.target.checked)}
-          inputProps={{
-            'arial-label': 'secondary checkbox'
-          }}
-      />}
-      label='Testing Checkbox'
-     />
-
-  );
-}
-
-  function ArraysTutorial() {
-    return (
-      <Container>
-      <CheckboxExample />
-        <ButtonGroup variant='contained'>
-        <Button startIcon={<SaveIcon />}
-        size='large'
-        color='primary'>
-          Save
-        </Button>
-        <Button startIcon={<DeleteIcon />}
-        size='large'
-        color='secondary'>
-          Discard
-        </Button>
-        </ButtonGroup>
-      </Container>
-    );
-  }
-
-
-
-class ExampleClass {
-    propertyOne: string;
-    propertyArray: string[] = [];
-
-    constructor (how: string = 'nice') {
-        this.propertyOne = how;
-    }
-
-    methodOne = () => {
-        return this.propertyOne.toUpperCase();
-    }
-}
-
-const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
+export const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
     const example = new ExampleClass('bad');
     console.log(example.propertyOne);
     console.log(example.methodOne());
