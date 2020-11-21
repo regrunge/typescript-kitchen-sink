@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/Save'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import Container from '@material-ui/core/Container'
 
@@ -15,6 +16,26 @@ import Container from '@material-ui/core/Container'
 type ArraysTutorialProps = {
 
 }
+
+class ExampleClass {
+    propertyOne: string;
+    propertyArray: string[] = [];
+
+    constructor (how: string = 'nice') {
+        this.propertyOne = how;
+    }
+
+    methodOne = () => {
+        return this.propertyOne.toUpperCase();
+    }
+}
+
+const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
+    const example = new ExampleClass('bad');
+    console.log(example.propertyOne);
+    console.log(example.methodOne());
+
+
 
 function CheckboxExample() {
   const [check, setChecked] = React.useState(true)
