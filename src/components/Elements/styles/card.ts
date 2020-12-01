@@ -1,16 +1,6 @@
 import { StyleSheet } from "react-native";
 import theme from '../../../theme';
-import card from '../styles/card';
 
-export default function Card(props) {
-  return (
-    <View style={styles.card}>
-     <View style={styles.cardContent}>
-        { props.children }
-     </View>
-    </View>
-  )
-}
 
 const styles = StyleSheet.create({
    card: {
@@ -30,4 +20,5 @@ const styles = StyleSheet.create({
      marginHorizontal: 18,
      marginVertical: 10,
    }
-})
+});
+export default styles;
