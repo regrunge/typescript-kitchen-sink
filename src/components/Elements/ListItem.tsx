@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles/itemStyles';
-import card from '../styles/card';
+import Card from './Card';
 
 type ItemProps = {
     item: DataItem;
@@ -25,22 +25,22 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
     return (
         <TouchableOpacity onPress={() => onPress(id)} key={index} onLongPress={() => onLongPress(id)}>
            <Card>
-           <View style={styles.itemContainer}>
-               <View style={styles.itemTextBlock}>
-                   <Text style={styles.header}>
-                       {headerText}
-                   </Text>
-                   <Text style={styles.subheader}>
-                       {subheaderText}
-                   </Text>
+               <View style={styles.itemContainer}>
+                   <View style={styles.itemTextBlock}>
+                       <Text style={styles.header}>
+                           {headerText}
+                       </Text>
+                       <Text style={styles.subheader}>
+                           {subheaderText}
+                       </Text>
+                   </View>
+                   <View>
+                       {completedToday ?
+                           (<Icon name={'check'} style={[styles.icon, styles.iconSuccess]}/>) :
+                           (<Icon name={'cancel'} style={[styles.icon, styles.iconError]}/>)
+                       }
+                   </View>
                </View>
-               <View>
-                   {completedToday ?
-                       (<Icon name={'check'} style={[styles.icon, styles.iconSuccess]}/>) :
-                       (<Icon name={'cancel'} style={[styles.icon, styles.iconError]}/>)
-                   }
-               </View>
-           </View>
            </Card>
 
         </TouchableOpacity>

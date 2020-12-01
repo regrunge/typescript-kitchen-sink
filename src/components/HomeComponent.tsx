@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import List from './Elements/List';
-import card from '../styles/card';
+import Card from './Elements/Card';
 
 class HomeComponent extends React.Component {
     state = {
