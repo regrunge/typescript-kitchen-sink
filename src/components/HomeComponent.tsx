@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import List from './Elements/List';
-import Card from './Elements/Card';
 
 class HomeComponent extends React.Component {
     state = {
@@ -11,13 +10,13 @@ class HomeComponent extends React.Component {
     render () {
         return (
             <View style={styles.container}>
-            <Card>
+            
                 {/*<Text>Home</Text>*/}
                 {/*<Text>Timer</Text>*/}
                 {/*<Text>List</Text>*/}
                 {/*<Text>CRUD item (Create Read Update Delete)</Text>*/}
                 <List />
-              </Card>
+              
 
                 <TouchableOpacity onPress={() => {}}>
                     <View style={styles.buttonContainer}>
@@ -40,13 +39,13 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         backgroundColor: '#90caf9',
-        padding: 24,
+        padding: 16,
         borderRadius: 35,
 
     },
     buttonText: {
         color: 'white',
-        fontSize: 32,
+        fontSize: 24,
         textTransform: 'uppercase',
         textAlign: 'center',
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, FlatList, Button} from "react-native";
 import ListItem, { DataItem }  from './ListItem';
-import card from '../styles/card';
+
 
 type ListProps = {
 
