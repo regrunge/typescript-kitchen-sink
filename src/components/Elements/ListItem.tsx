@@ -7,12 +7,12 @@ import Card from './Card';
 type ItemProps = {
     item: DataItem;
     index: number;
-    onPress: (id: string) => void;
-    onLongPress: (id: string) => void;
+    onPress: (id: string | number) => void;
+    onLongPress: (id: string | number) => void;
 };
 
 export type DataItem = {
-    id: string;
+    id: string | number;
     headerText: string;
     subheaderText: string;
     completedToday: boolean;
