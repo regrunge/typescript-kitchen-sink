@@ -1,7 +1,7 @@
 export interface ThingType {
   name: string;
   durationMinutes: number;
-  weeklyRecurrence?: number[];
+  weeklyRecurrence?: number[]; // [0,0,0,1,0,0,0] IF only on Thursday
   notificationTime?: number;
   color?: string;
 }
