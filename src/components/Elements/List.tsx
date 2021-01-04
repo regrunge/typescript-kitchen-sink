@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, FlatList, Button} from "react-native";
 import ListItem, { DataItem }  from './ListItem';
-
+import { connect, dispatch } from 'react-redux';
+import {ThingType} from "../../models/thing";
 
 type ListProps = {
-
+    things: ThingType[],
 };
 
 const data: DataItem[] = [
@@ -17,25 +18,34 @@ const sortingByTitle = (things: DataItem[]) => {
 };
 
 const List: React.FC<ListProps> = (props: ListProps) => {
-    const [elements, setElements] = React.useState(sortingByTitle(data));
+    const mapThingsToListItem = () => {
+        return props.things.map((t, index) => {
+            return {
+                headerText: t.name,
+                subheaderText: `${t.durationMinutes} minutes`,
+                completedToday: false,
+                id: index,
+            }
+        });
+    };
 
-    const onPress = (id: string) => {
+    const elements = sortingByTitle(mapThingsToListItem());
+
+    const onPress = (id: string | number) => {
         const oldElements = [ ...elements ];
         const filter = oldElements.filter(item => item.id === id);
         const filtr2 = oldElements.filter(item => item.id !== id);
         const needle = filter[0];
         needle.completedToday = !needle.completedToday;
-        setElements(sortingByTitle([...filtr2, needle]));
     };
 
-    const onLongPress = (id: string) => {
+    const onLongPress = (id: string | number) => {
         const oldElements = [ ...elements ];
         const filtered = oldElements.filter(item => item.id !== id);
-        setElements(sortingByTitle(filtered));
     };
 
     const handleReset = () => {
-        setElements(sortingByTitle(data));
+
     };
 
     return (
@@ -55,4 +65,10 @@ const List: React.FC<ListProps> = (props: ListProps) => {
     );
 };
 
-export default List;
+const mapStateToProps = (state: any) => {
+    return {
+        things: state.things,
+    }
+};
+
+export default connect(mapStateToProps)(List);
