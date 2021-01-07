@@ -1,16 +1,30 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import List from './Elements/List';
+import WeekdayPicker from "react-native-weekday-picker"
 import Thing from "../models/thing";
 import { connect } from 'react-redux';
 import { addThing } from "../redux/dispatch/things";
+import Card from './Elements/Card';
 
 class HomeComponent extends React.Component {
     state = {
 
     };
+    
+    createThings = () => {
+        const days = { 1:1, 2:1 , 3:1 , 4:1 , 5:1, 6:0, 0:0 }
+        <WeekdayPicker
+          days={days}
+          onChange={this.handleChange}
+          style={styles.picker}
+          dayStyle={styles.day}
+        />   
+    }
 
-    createRandomTask = () => {
+
+   createRandomTask = () => {
         const newThing = {
             name: 'Play the guitar',
             durationMinutes: 23,
@@ -25,11 +39,12 @@ class HomeComponent extends React.Component {
     render () {
         return (
             <View style={styles.container}>
-
-                {/*<Text>Home</Text>*/}
-                {/*<Text>Timer</Text>*/}
-                {/*<Text>List</Text>*/}
-                {/*<Text>CRUD item (Create Read Update Delete)</Text>*/}
+                <Card>
+                <Text>Monday </Text><CheckBox style={styles.checkBox} /> 
+                <Text>Tuesday</Text>
+                <CheckBox style={styles.checkBox} />
+                </Card>
+                 
                 <List />
 
 
@@ -63,6 +78,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textTransform: 'uppercase',
         textAlign: 'center',
+    },
+
+    checkBox: {
+        marginHorizontal:320,
     }
 });
 
