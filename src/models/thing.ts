@@ -1,7 +1,7 @@
 export interface ThingType {
   name: string;
   durationMinutes: number;
-  weeklyRecurrence?: number[]; // [0,0,0,1,0,0,0] IF only on Thursday
+  weeklyRecurrence?: boolean[]; // [0,0,0,1,0,0,0] IF only on Thursday
   notificationTime?: number;
   color?: string;
 }
@@ -11,14 +11,14 @@ class Thing implements ThingType {
     public name: string;
     public color?: string;
     public notificationTime?: number;
-    public weeklyRecurrence?: number[];
+    public weeklyRecurrence?: boolean[];
 
     constructor(
         durationMinutes: number,
         name: string,
         color?: string,
         notificationTime?: number,
-        weeklyRecurrence?: number[]
+        weeklyRecurrence?: boolean[]
     ){
         this.durationMinutes = durationMinutes;
         this.name = name;

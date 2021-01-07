@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, FlatList, Button} from "react-native";
 import ListItem, { DataItem }  from './ListItem';
-import { connect, dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import {ThingType} from "../../models/thing";
 
 type ListProps = {
@@ -24,6 +24,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
                 headerText: t.name,
                 subheaderText: `${t.durationMinutes} minutes`,
                 completedToday: false,
+                weeklyRecurrence: t.weeklyRecurrence,
                 id: index,
             }
         });
