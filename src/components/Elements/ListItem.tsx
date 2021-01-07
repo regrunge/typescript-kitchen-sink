@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles/itemStyles';
 import Card from './Card';
+import { daysOfTheWeek } from '../../utils';
 
 type ItemProps = {
     item: DataItem;
@@ -16,11 +17,22 @@ export type DataItem = {
     headerText: string;
     subheaderText: string;
     completedToday: boolean;
+    weeklyRecurrence?: boolean[];
 }
 
 const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
     const { item, index, onPress, onLongPress } = props;
-    const { headerText, subheaderText, completedToday, id } = item;
+    const { headerText, subheaderText, completedToday, id, weeklyRecurrence } = item;
+
+    const renderDaysOfTheWeek = () => (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+            {
+                weeklyRecurrence && weeklyRecurrence.map(
+                    day => (<Text>{day ? 'X' : 'O'}</Text>)
+                )
+            }
+        </View>
+    );
 
     return (
         <TouchableOpacity onPress={() => onPress(id)} key={index} onLongPress={() => onLongPress(id)}>
@@ -40,6 +52,9 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
                            (<Icon name={'cancel'} style={[styles.icon, styles.iconError]}/>)
                        }
                    </View>
+               </View>
+               <View>
+                   {renderDaysOfTheWeek()}
                </View>
            </Card>
 
