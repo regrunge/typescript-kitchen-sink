@@ -7,6 +7,9 @@
  *
  * @format
  */
+import 'react-native-gesture-handler';
+
+import { NavigationContainer } from '@react-navigation/native';
 
 import React from 'react';
 import {
@@ -26,9 +29,11 @@ declare const global: {HermesInternal: null | {}};
 const App = () => {
   return (
   <Provider store={store}>
-      <StatusBar barStyle="dark-content" />
-      {/*<TutorialComponent />*/}
-      <HomeComponent />
+      <NavigationContainer>
+          <StatusBar barStyle="dark-content" />
+          {/*<TutorialComponent />*/}
+          <HomeComponent />
+      </NavigationContainer>
   </Provider>
   );
 };
