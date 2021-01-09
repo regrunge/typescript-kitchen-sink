@@ -7,6 +7,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import { addThing } from "../redux/dispatch/things";
 import Card from './Elements/Card';
 import { daysOfTheWeek } from '../utils';
+import {StackNavigationProp} from "@react-navigation/stack";
+import { RouteProp } from '@react-navigation/native';
+import {RootStackParamList} from "../navigation/MainStack";
 
 const mapDispatchToProps = {
     addThingProp: (thing: Thing) => addThing(thing),
@@ -14,8 +17,16 @@ const mapDispatchToProps = {
 
 const connector = connect(null, mapDispatchToProps);
 
-type HomeComponentProps = {
+type CRUDScreenNavigationProp = StackNavigationProp<
+        RootStackParamList,
+        'CRUD'
+    >;
 
+type CRUDScreenRouteProp = RouteProp<RootStackParamList, 'CRUD'>;
+
+type HomeComponentProps = {
+    navigation: CRUDScreenNavigationProp;
+    route: CRUDScreenRouteProp;
 };
 
 type StateType = {
@@ -25,7 +36,7 @@ type StateType = {
     showDaysThingy: boolean;
 }
 
-class HomeComponent extends React.Component<HomeComponentProps & ConnectedProps<typeof connector>> {
+class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedProps<typeof connector>> {
     state: StateType = {
         daysCheckboxes: [ false, false, false, false, false, false, false ],
         color: '#000000',
@@ -70,6 +81,7 @@ class HomeComponent extends React.Component<HomeComponentProps & ConnectedProps<
                             <CheckBox
                                 style={styles.checkBox}
                                 onValueChange={() => this.handleDaysCBChange(day.id)}
+                                value={this.state.daysCheckboxes[day.id]}
                             />
                         </View>
                     )
@@ -90,8 +102,12 @@ class HomeComponent extends React.Component<HomeComponentProps & ConnectedProps<
 
 
     render () {
+        const { route } = this.props;
+
         return (
             <View style={styles.container}>
+                {route.params.id && (<Text>{route.name}: {route.params.id}</Text>)}
+
                 <TextInput
                     style={styles.textInput}
                     onChangeText={ (text) => this.setState({ name: text })}
@@ -172,4 +188,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connector(HomeComponent);
+export default connector(CrudThingComponent);

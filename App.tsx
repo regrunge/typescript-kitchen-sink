@@ -7,6 +7,9 @@
  *
  * @format
  */
+import 'react-native-gesture-handler';
+
+import { NavigationContainer } from '@react-navigation/native';
 
 import React from 'react';
 import {
@@ -17,19 +20,18 @@ import {
 import { Provider } from 'react-redux';
 import store from './src/redux';
 
-// import TutorialComponent from './src/components/tutorial/TutorialComponent';
-import HomeComponent from './src/components/HomeComponent';
-
+import MainStack from "./src/navigation/MainStack";
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
-  <Provider store={store}>
-      <StatusBar barStyle="dark-content" />
-      {/*<TutorialComponent />*/}
-      <HomeComponent />
-  </Provider>
+    <Provider store={store}>
+      <NavigationContainer>
+          <StatusBar barStyle="dark-content" />
+          <MainStack />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
