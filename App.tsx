@@ -20,21 +20,18 @@ import {
 import { Provider } from 'react-redux';
 import store from './src/redux';
 
-// import TutorialComponent from './src/components/tutorial/TutorialComponent';
-import HomeComponent from './src/components/HomeComponent';
-
+import MainStack from "./src/navigation/MainStack";
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
-  <Provider store={store}>
+    <Provider store={store}>
       <NavigationContainer>
           <StatusBar barStyle="dark-content" />
-          {/*<TutorialComponent />*/}
-          <HomeComponent />
+          <MainStack />
       </NavigationContainer>
-  </Provider>
+    </Provider>
   );
 };
 
