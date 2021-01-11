@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, TextInput, SliderBase } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import List from './Elements/List';
 import Thing from "../models/thing";
@@ -10,6 +10,9 @@ import { daysOfTheWeek } from '../utils';
 import {StackNavigationProp} from "@react-navigation/stack";
 import { RouteProp } from '@react-navigation/native';
 import {RootStackParamList} from "../navigation/MainStack";
+import { ColorPicker, toHsv, fromHsv } from 'react-native-color-picker'
+
+
 
 const mapDispatchToProps = {
     addThingProp: (thing: Thing) => addThing(thing),
@@ -44,6 +47,16 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
         showDaysThingy: false,
     };
 
+    colorThing = () => (
+       {
+       name: this.state.name,
+       color:toHsv('red')
+       
+       }
+    )
+    
+      
+
     createThing = () => {
         const newThing = {
             name: this.state.name,
@@ -71,6 +84,9 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
         );
     };
 
+    
+
+
     renderDaysChecker = () => {
         return (
             <Card>
@@ -83,6 +99,7 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
                                 onValueChange={() => this.handleDaysCBChange(day.id)}
                                 value={this.state.daysCheckboxes[day.id]}
                             />
+                            
                         </View>
                     )
                 )}
@@ -107,6 +124,8 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
         return (
             <View style={styles.container}>
                 {route.params.id && (<Text>{route.name}: {route.params.id}</Text>)}
+
+                <ColorPicker/>
 
                 <TextInput
                     style={styles.textInput}
