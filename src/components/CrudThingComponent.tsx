@@ -11,11 +11,12 @@ import { daysOfTheWeek } from '../utils';
 import {StackNavigationProp} from "@react-navigation/stack";
 import { RouteProp } from '@react-navigation/native';
 import {RootStackParamList} from "../navigation/MainStack";
-import { ColorPicker, toHsv, fromHsv } from 'react-native-color-picker';
+
 
 const uuid = require('react-native-uuid');
 
 import materialUiColors from "../theme/material-ui-colors";
+import durationMinutes from "../components/Elements/minutesPicker"
 
 
 const mapDispatchToProps = {
@@ -111,6 +112,27 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
                 )}
             </Card>)
     };
+
+renderMinutesPicker = () => {
+    const minutes = Object.entries(durationMinutes).map(
+        ([key, value]) => ({ key: key })
+        );
+
+    return (
+        <Picker
+            mode="dropdown"
+            selectedValue={this.state.color}
+            itemStyle={{textAlign:'center',color:''}}
+            onValueChange={(itemValue) => this.setState({ minutes: itemValue })} >
+            {minutes.map(minutes => (
+            <Picker.Item minutes={minutes.value} label={minutes.key} value={minutes.value} />
+                ))}
+            </Picker>
+        );
+    };
+
+
+    
 
     renderPicker = () => {
         const colors = Object.entries(materialUiColors).map(
