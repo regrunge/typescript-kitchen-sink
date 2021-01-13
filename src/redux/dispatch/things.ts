@@ -1,4 +1,4 @@
-import { ADD_THING } from "../actions";
+import { ADD_THING, ADD_COLORPICKER } from "../actions";
 import {ThingType} from "../../models/thing";
 
 export const addThing = (thing: ThingType) => {
@@ -7,3 +7,11 @@ export const addThing = (thing: ThingType) => {
         thing,
     };
 };
+
+export const Picker = () => {
+    return {
+      type: ADD_COLORPICKER,
+      color:''  
+    };
+};
+    
