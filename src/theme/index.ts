@@ -1,3 +1,5 @@
+import materialUiColors from "./material-ui-colors";
+
 export const colors = {
     primary: '#90caf9',
     secondary: '#f48fb1',
@@ -43,6 +45,7 @@ export const spacing = {
 };
 
 export default {
+    materialUiColors: materialUiColors,
     colors: colors,
     typography: typography,
     spacing: spacing,

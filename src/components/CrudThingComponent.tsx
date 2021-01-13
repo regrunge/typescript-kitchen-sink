@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput, Picker, SliderBase } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+
 import CheckBox from '@react-native-community/checkbox';
-import List from './Elements/List';
 import Thing from "../models/thing";
 import { connect, ConnectedProps } from 'react-redux';
 import { addThing } from "../redux/dispatch/things";
@@ -12,10 +13,13 @@ import { RouteProp } from '@react-navigation/native';
 import {RootStackParamList} from "../navigation/MainStack";
 import { ColorPicker, toHsv, fromHsv } from 'react-native-color-picker';
 
+const uuid = require('react-native-uuid');
+
+import materialUiColors from "../theme/material-ui-colors";
 
 
 const mapDispatchToProps = {
-    addThingProp: (thing: Thing) => addThing(thing),
+    addThingProp: (thing: Thing) => addThing(thing), // REDUX action
 };
 
 const connector = connect(null, mapDispatchToProps);
@@ -47,31 +51,25 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
         showDaysThingy: false,
     };
 
-    colorPicker = () => (
-       {
-       name: this.state.name,
-       color:toHsv('red')
-       
-       }
-    )
-    
-      
 
     createThing = () => {
         const newThing = {
             name: this.state.name,
             durationMinutes: 23,
+            id: uuid.v4(),
         };
 
         const thing = new Thing(
             newThing.durationMinutes,
-            newThing.name
+            newThing.id,
+            newThing.name,
         );
 
         thing.weeklyRecurrence = this.state.daysCheckboxes;
         thing.color = this.state.color;
 
-        this.props.addThingProp(thing);
+        this.props.addThingProp(thing); // REDUX action
+        this.props.navigation.goBack();
     };
 
     handleDaysCBChange = (dayIndex: number) => {
@@ -83,9 +81,6 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
             }
         );
     };
-
-    
-
 
     renderDaysChecker = () => {
         return (
@@ -99,7 +94,7 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
                                 onValueChange={() => this.handleDaysCBChange(day.id)}
                                 value={this.state.daysCheckboxes[day.id]}
                             />
-                            
+
                         </View>
                     )
                 )}
@@ -117,59 +112,69 @@ class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedP
             </Card>)
     };
 
+    renderPicker = () => {
+        const colors = Object.entries(materialUiColors).map(
+            ([key, value]) => ({ key: key.replace('_', ' ').toUpperCase(), value })
+        );
+
+        return (
+            <Picker
+                mode="dropdown"
+                selectedValue={this.state.color}
+                itemStyle={{textAlign:'center',color:''}}
+                onValueChange={(itemValue) => this.setState({ color: itemValue })} >
+                {colors.map(color => (
+                    <Picker.Item color={color.value} label={color.key} value={color.value} />
+                ))}
+            </Picker>
+        );
+    };
 
     render () {
         const { route } = this.props;
 
         return (
-            <View style={styles.container}>
-                {route.params.id && (<Text>{route.name}: {route.params.id}</Text>)}
-                <Picker
-       mode="dropdown"
-       selectedValue={{}}
-       itemStyle={{textAlign:'center',color:''}}
-       onValueChange={(itemValue, itemIndex) => this.setState({PickerValueHolder: itemValue})} >
-        <Picker.Item color='#00bfff' label="Blue" value=''/>
-        <Picker.Item color='#b20000' label="Red" value=''/>
-        <Picker.Item color='#00854d' label="Green" value=''/>
-        <Picker.Item color='#a786cb' label="Purple" value=''/>
-      </Picker>
+            <ScrollView>
+                <View style={styles.container}>
+                    {route.params.id && (<Text>{route.name}: {route.params.id}</Text>)}
+                    {this.renderPicker()}
 
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={ (text) => this.setState({ name: text })}
-                    value={this.state.name}
-                    placeholder={'Write stuff!'}
-                />
+                    <TextInput
+                        style={styles.textInput}
+                        onChangeText={ (text) => this.setState({ name: text })}
+                        value={this.state.name}
+                        placeholder={'Write stuff!'}
+                    />
 
 
-                {this.renderDaysChecker()}
+                    {this.renderDaysChecker()}
 
-                {this.state.showDaysThingy && this.renderDaysResults()}
+                    {this.state.showDaysThingy && this.renderDaysResults()}
 
-                <TouchableOpacity
-                    onPress={() => this.setState( (oldState: StateType) => ({
-                        showDaysThingy: !oldState.showDaysThingy
-                    }))}
-                >
-                    <View style={styles.buttonContainerSmall}>
-                        <Text style={styles.buttonText}>
-                            {this.state.showDaysThingy ? 'Hide' : 'Show'} Days Result
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setState( (oldState: StateType) => ({
+                            showDaysThingy: !oldState.showDaysThingy
+                        }))}
+                    >
+                        <View style={styles.buttonContainerSmall}>
+                            <Text style={styles.buttonText}>
+                                {this.state.showDaysThingy ? 'Hide' : 'Show'} Days Result
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
 
-                <List />
 
-                <TouchableOpacity onPress={() => this.createThing()}>
-                    <View style={styles.buttonContainer}>
-                        <Text style={styles.buttonText}>
-                            Create Task
-                        </Text>
-                    </View>
-                </TouchableOpacity>
 
-            </View>
+                    <TouchableOpacity onPress={() => this.createThing()}>
+                        <View style={styles.buttonContainer}>
+                            <Text style={styles.buttonText}>
+                                Create Task
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+            </ScrollView>
         );
     }
 }

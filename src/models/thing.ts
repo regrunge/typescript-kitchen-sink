@@ -1,4 +1,5 @@
 export interface ThingType {
+  id: string;
   name: string;
   durationMinutes: number;
   weeklyRecurrence?: boolean[]; // [0,0,0,1,0,0,0] IF only on Thursday
@@ -8,6 +9,7 @@ export interface ThingType {
 
 class Thing implements ThingType {
     public durationMinutes: number;
+    public id: string;
     public name: string;
     public color?: string;
     public notificationTime?: number;
@@ -15,26 +17,18 @@ class Thing implements ThingType {
 
     constructor(
         durationMinutes: number,
+        id: string,
         name: string,
         color?: string,
         notificationTime?: number,
         weeklyRecurrence?: boolean[]
     ){
         this.durationMinutes = durationMinutes;
+        this.id = id;
         this.name = name;
         this.color = color;
         this.notificationTime = notificationTime || 0;
         this.weeklyRecurrence = weeklyRecurrence;
-    }
-
-    public getHumanNotificationTime(): string {
-        if(!this.notificationTime || this.notificationTime === 0) {
-            return '-/-';
-        }
-
-        const date = new Date(this.notificationTime);
-
-        return date.toLocaleDateString('en-US');
     }
 }
 

@@ -4,6 +4,7 @@ import { Link } from '@react-navigation/native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from "../navigation/MainStack";
+import List from './Elements/List';
 
 type MainScreenNavigationProp = StackNavigationProp<
     RootStackParamList,
@@ -20,6 +21,7 @@ const MainComponent: React.FC<Props> = (props) => {
     return (
         <View>
             <Text>Main Component</Text>
+            <List />
             <Link to="/CRUD">
                 <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>
