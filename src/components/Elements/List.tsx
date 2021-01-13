@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Button} from "react-native";
+import {View, FlatList, Button, Alert} from "react-native";
 import ListItem, { DataItem }  from './ListItem';
 import { connect } from 'react-redux';
 import {ThingType} from "../../models/thing";
@@ -7,11 +7,6 @@ import {ThingType} from "../../models/thing";
 type ListProps = {
     things: ThingType[],
 };
-
-const data: DataItem[] = [
-    { headerText: 'Drawing', subheaderText: '20 minutes', completedToday: false, id: 'qwerty123' },
-    { headerText: 'Playing guitar', subheaderText: '20 minutes', completedToday: true, id: 'qiopjkl13' },
-];
 
 const sortingByTitle = (things: DataItem[]) => {
     return things.sort((a,b) => a.headerText.localeCompare(b.headerText));
@@ -25,7 +20,8 @@ const List: React.FC<ListProps> = (props: ListProps) => {
                 subheaderText: `${t.durationMinutes} minutes`,
                 completedToday: false,
                 weeklyRecurrence: t.weeklyRecurrence,
-                id: index,
+                color: t.color,
+                id: t.id,
             }
         });
     };
@@ -37,6 +33,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
         const filter = oldElements.filter(item => item.id === id);
         const filtr2 = oldElements.filter(item => item.id !== id);
         const needle = filter[0];
+        Alert.alert(`You clicked ${needle.headerText}`, `${needle.id}`);
         needle.completedToday = !needle.completedToday;
     };
 
@@ -55,7 +52,9 @@ const List: React.FC<ListProps> = (props: ListProps) => {
                 data={elements}
                 renderItem={({ item, index }) => (
                     <ListItem
-                        item={item} index={index} key={index}
+                        item={item}
+                        index={index}
+                        key={index}
                         onPress={onPress}
                         onLongPress={onLongPress}
                     />

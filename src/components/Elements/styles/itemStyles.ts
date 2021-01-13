@@ -26,4 +26,10 @@ export default StyleSheet.create({
     subheader: {
         ...theme.typography.body,
     },
+    colorWrapper: {
+        width: 24,
+        height: 24,
+        borderRadius: 8,
+        marginRight: 8,
+    }
 });

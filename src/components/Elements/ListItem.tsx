@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles/itemStyles';
 import Card from './Card';
@@ -14,6 +14,7 @@ type ItemProps = {
 
 export type DataItem = {
     id: string | number;
+    color: string | undefined;
     headerText: string;
     subheaderText: string;
     completedToday: boolean;
@@ -34,10 +35,14 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
         </View>
     );
 
+    const colorStyle = StyleSheet.flatten([styles.colorWrapper, { backgroundColor: item.color}]);
+
+
     return (
         <TouchableOpacity onPress={() => onPress(id)} key={index} onLongPress={() => onLongPress(id)}>
            <Card>
                <View style={styles.itemContainer}>
+                   <View style={colorStyle} />
                    <View style={styles.itemTextBlock}>
                        <Text style={styles.header}>
                            {headerText}
