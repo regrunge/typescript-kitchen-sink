@@ -1,245 +1,247 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 
 import CheckBox from '@react-native-community/checkbox';
-import Thing from "../models/thing";
-import { connect, ConnectedProps } from 'react-redux';
-import { addThing } from "../redux/dispatch/things";
+import Thing from '../models/thing';
+import {connect, ConnectedProps} from 'react-redux';
+import {addThing} from '../redux/dispatch/things';
 import Card from './Elements/Card';
-import { daysOfTheWeek } from '../utils';
-import {StackNavigationProp} from "@react-navigation/stack";
-import { RouteProp } from '@react-navigation/native';
-import {RootStackParamList} from "../navigation/MainStack";
-
+import {daysOfTheWeek} from '../utils';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {RootStackParamList} from '../navigation/MainStack';
 
 const uuid = require('react-native-uuid');
 
-import materialUiColors from "../theme/material-ui-colors";
-import durationMinutes from "../components/Elements/minutesPicker"
-
+import materialUiColors from '../theme/material-ui-colors';
+import durationMinutes from '../components/Elements/minutesPicker';
 
 const mapDispatchToProps = {
-    addThingProp: (thing: Thing) => addThing(thing), // REDUX action
+  addThingProp: (thing: Thing) => addThing(thing), // REDUX action
 };
 
 const connector = connect(null, mapDispatchToProps);
 
-type CRUDScreenNavigationProp = StackNavigationProp<
-        RootStackParamList,
-        'CRUD'
-    >;
+type CRUDScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CRUD'>;
 
 type CRUDScreenRouteProp = RouteProp<RootStackParamList, 'CRUD'>;
 
 type HomeComponentProps = {
-    navigation: CRUDScreenNavigationProp;
-    route: CRUDScreenRouteProp;
+  navigation: CRUDScreenNavigationProp;
+  route: CRUDScreenRouteProp;
 };
 
 type StateType = {
-    daysCheckboxes: boolean[],
-    color: string;
-    name: string;
-    showDaysThingy: boolean;
-}
+  daysCheckboxes: boolean[];
+  color: string;
+  name: string;
+  showDaysThingy: boolean;
+  minutes: number;
+};
 
-class CrudThingComponent extends React.Component<HomeComponentProps & ConnectedProps<typeof connector>> {
-    state: StateType = {
-        daysCheckboxes: [ false, false, false, false, false, false, false ],
-        color: '#000000',
-        name: '',
-        showDaysThingy: false,
+class CrudThingComponent extends React.Component<
+  HomeComponentProps & ConnectedProps<typeof connector>
+> {
+  state: StateType = {
+    daysCheckboxes: [false, false, false, false, false, false, false],
+    color: '#000000',
+    name: '',
+    showDaysThingy: false,
+    minutes: 60,
+  };
+
+  createThing = () => {
+    const newThing = {
+      name: this.state.name,
+      durationMinutes: this.state.minutes,
+      id: uuid.v4(),
     };
 
+    const thing = new Thing(
+      newThing.durationMinutes,
+      newThing.id,
+      newThing.name,
+    );
 
-    createThing = () => {
-        const newThing = {
-            name: this.state.name,
-            durationMinutes: 23,
-            id: uuid.v4(),
-        };
+    thing.weeklyRecurrence = this.state.daysCheckboxes;
+    thing.color = this.state.color;
 
-        const thing = new Thing(
-            newThing.durationMinutes,
-            newThing.id,
-            newThing.name,
-        );
+    this.props.addThingProp(thing); // REDUX action
+    this.props.navigation.goBack();
+  };
 
-        thing.weeklyRecurrence = this.state.daysCheckboxes;
-        thing.color = this.state.color;
+  handleDaysCBChange = (dayIndex: number) => {
+    this.setState((oldState: StateType) => {
+      const daysCheckboxes = [...oldState.daysCheckboxes];
+      daysCheckboxes[dayIndex] = !oldState.daysCheckboxes[dayIndex];
 
-        this.props.addThingProp(thing); // REDUX action
-        this.props.navigation.goBack();
-    };
+      return {daysCheckboxes};
+    });
+  };
 
-    handleDaysCBChange = (dayIndex: number) => {
-        this.setState((oldState: StateType) => {
-                const daysCheckboxes = [...oldState.daysCheckboxes];
-                daysCheckboxes[dayIndex] = !oldState.daysCheckboxes[dayIndex];
+  renderDaysChecker = () => {
+    return (
+      <Card>
+        {daysOfTheWeek.map((day) => (
+          <View key={day.id} style={styles.dayCheckboxes}>
+            <Text>{day.name}</Text>
+            <CheckBox
+              style={styles.checkBox}
+              onValueChange={() => this.handleDaysCBChange(day.id)}
+              value={this.state.daysCheckboxes[day.id]}
+            />
+          </View>
+        ))}
+      </Card>
+    );
+  };
 
-                return { daysCheckboxes };
-            }
-        );
-    };
+  renderDaysResults = () => {
+    return (
+      <Card>
+        {daysOfTheWeek.map((day) => (
+          <Text key={day.id}>
+            {day.name}: {this.state.daysCheckboxes[day.id] ? 'YES' : ' NO'}
+          </Text>
+        ))}
+      </Card>
+    );
+  };
 
-    renderDaysChecker = () => {
-        return (
-            <Card>
-                {daysOfTheWeek.map(
-                    (day) => (
-                        <View key={day.id} style={styles.dayCheckboxes}>
-                            <Text>{day.name}</Text>
-                            <CheckBox
-                                style={styles.checkBox}
-                                onValueChange={() => this.handleDaysCBChange(day.id)}
-                                value={this.state.daysCheckboxes[day.id]}
-                            />
-
-                        </View>
-                    )
-                )}
-        </Card>)
-    };
-
-    renderDaysResults = () => {
-        return (
-            <Card>
-                {daysOfTheWeek.map(
-                    (day) => (
-                        <Text key={day.id}>{day.name}: {this.state.daysCheckboxes[day.id] ? 'YES' : ' NO'}</Text>
-                    )
-                )}
-            </Card>)
-    };
-
-renderMinutesPicker = () => {
-    const minutes = Object.entries(durationMinutes).map(
-        ([key, value]) => ({ key: key })
-        );
+  renderMinutesPicker = () => {
+    const minutes = Object.entries(durationMinutes).map(([key, value]) => ({
+      key: key,
+      value: value,
+    }));
 
     return (
-        <Picker
-            mode="dropdown"
-            selectedValue={this.state.color}
-            itemStyle={{textAlign:'center',color:''}}
-            onValueChange={(itemValue) => this.setState({ minutes: itemValue })} >
-            {minutes.map(minutes => (
-            <Picker.Item minutes={minutes.value} label={minutes.key} value={minutes.value} />
-                ))}
-            </Picker>
-        );
-    };
+      <Picker
+        mode="dropdown"
+        selectedValue={this.state.minutes}
+        itemStyle={{textAlign: 'center', color: ''}}
+        onValueChange={(itemValue) => this.setState({minutes: itemValue})}>
+        {minutes.map((minute) => (
+          <Picker.Item label={minute.key} value={minute.value} />
+        ))}
+      </Picker>
+    );
+  };
 
+  renderPicker = () => {
+    const colors = Object.entries(materialUiColors).map(([key, value]) => ({
+      key: key.replace('_', ' ').toUpperCase(),
+      value,
+    }));
 
-    
+    return (
+      <Picker
+        mode="dropdown"
+        selectedValue={this.state.color}
+        itemStyle={{textAlign: 'center', color: ''}}
+        onValueChange={(itemValue) => this.setState({color: itemValue})}>
+        {colors.map((color) => (
+          <Picker.Item
+            color={color.value}
+            label={color.key}
+            value={color.value}
+          />
+        ))}
+      </Picker>
+    );
+  };
 
-    renderPicker = () => {
-        const colors = Object.entries(materialUiColors).map(
-            ([key, value]) => ({ key: key.replace('_', ' ').toUpperCase(), value })
-        );
+  render() {
+    const {route} = this.props;
 
-        return (
-            <Picker
-                mode="dropdown"
-                selectedValue={this.state.color}
-                itemStyle={{textAlign:'center',color:''}}
-                onValueChange={(itemValue) => this.setState({ color: itemValue })} >
-                {colors.map(color => (
-                    <Picker.Item color={color.value} label={color.key} value={color.value} />
-                ))}
-            </Picker>
-        );
-    };
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          {route.params.id && (
+            <Text>
+              {route.name}: {route.params.id}
+            </Text>
+          )}
+          {this.renderPicker()}
+          {this.renderMinutesPicker()}
 
-    render () {
-        const { route } = this.props;
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(text) => this.setState({name: text})}
+            value={this.state.name}
+            placeholder={'Write stuff!'}
+          />
 
-        return (
-            <ScrollView>
-                <View style={styles.container}>
-                    {route.params.id && (<Text>{route.name}: {route.params.id}</Text>)}
-                    {this.renderPicker()}
+          {this.renderDaysChecker()}
 
-                    <TextInput
-                        style={styles.textInput}
-                        onChangeText={ (text) => this.setState({ name: text })}
-                        value={this.state.name}
-                        placeholder={'Write stuff!'}
-                    />
+          {this.state.showDaysThingy && this.renderDaysResults()}
 
+          <TouchableOpacity
+            onPress={() =>
+              this.setState((oldState: StateType) => ({
+                showDaysThingy: !oldState.showDaysThingy,
+              }))
+            }>
+            <View style={styles.buttonContainerSmall}>
+              <Text style={styles.buttonText}>
+                {this.state.showDaysThingy ? 'Hide' : 'Show'} Days Result
+              </Text>
+            </View>
+          </TouchableOpacity>
 
-                    {this.renderDaysChecker()}
-
-                    {this.state.showDaysThingy && this.renderDaysResults()}
-
-                    <TouchableOpacity
-                        onPress={() => this.setState( (oldState: StateType) => ({
-                            showDaysThingy: !oldState.showDaysThingy
-                        }))}
-                    >
-                        <View style={styles.buttonContainerSmall}>
-                            <Text style={styles.buttonText}>
-                                {this.state.showDaysThingy ? 'Hide' : 'Show'} Days Result
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-
-
-                    <TouchableOpacity onPress={() => this.createThing()}>
-                        <View style={styles.buttonContainer}>
-                            <Text style={styles.buttonText}>
-                                Create Task
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-
-                </View>
-            </ScrollView>
-        );
-    }
+          <TouchableOpacity onPress={() => this.createThing()}>
+            <View style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>Create Task</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        flex: 1,
-        margin: 8,
-    },
-    buttonContainer: {
-        backgroundColor: '#90caf9',
-        padding: 16,
-        borderRadius: 35,
-
-    },
-    buttonContainerSmall: {
-        backgroundColor: '#90caf9',
-        padding: 4,
-        borderRadius: 4,
-
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 24,
-        textTransform: 'uppercase',
-        textAlign: 'center',
-    },
-    checkBox: {
-
-    },
-    dayCheckboxes: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginVertical: 8,
-    },
-    textInput: {
-        borderWidth: 1,
-        padding: 8,
-        borderRadius: 8,
-        borderColor: '#aaaaff',
-    },
+  container: {
+    justifyContent: 'center',
+    flex: 1,
+    margin: 8,
+  },
+  buttonContainer: {
+    backgroundColor: '#90caf9',
+    padding: 16,
+    borderRadius: 35,
+  },
+  buttonContainerSmall: {
+    backgroundColor: '#90caf9',
+    padding: 4,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 24,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  checkBox: {},
+  dayCheckboxes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginVertical: 8,
+  },
+  textInput: {
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 8,
+    borderColor: '#aaaaff',
+  },
 });
 
 export default connector(CrudThingComponent);
