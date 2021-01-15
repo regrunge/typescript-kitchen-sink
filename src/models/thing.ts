@@ -8,28 +8,28 @@ export interface ThingType {
 }
 
 class Thing implements ThingType {
-    public durationMinutes: number;
-    public id: string;
-    public name: string;
-    public color?: string;
-    public notificationTime?: number;
-    public weeklyRecurrence?: boolean[];
+  public durationMinutes: number;
+  public id: string;
+  public name: string;
+  public color?: string;
+  public notificationTime?: number;
+  public weeklyRecurrence?: boolean[];
 
-    constructor(
-        durationMinutes: number,
-        id: string,
-        name: string,
-        color?: string,
-        notificationTime?: number,
-        weeklyRecurrence?: boolean[]
-    ){
-        this.durationMinutes = durationMinutes;
-        this.id = id;
-        this.name = name;
-        this.color = color;
-        this.notificationTime = notificationTime || 0;
-        this.weeklyRecurrence = weeklyRecurrence;
-    }
+  constructor(
+    durationMinutes: number,
+    id: string,
+    name: string,
+    color?: string,
+    notificationTime?: number,
+    weeklyRecurrence?: boolean[],
+  ) {
+    this.durationMinutes = durationMinutes;
+    this.id = id;
+    this.name = name;
+    this.color = color;
+    this.notificationTime = notificationTime || 0;
+    this.weeklyRecurrence = weeklyRecurrence;
+  }
 }
 
 export default Thing;
