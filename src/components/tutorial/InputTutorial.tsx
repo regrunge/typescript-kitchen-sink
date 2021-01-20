@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
 import {View, TextInput, StyleSheet, Text} from 'react-native';
 
+type Props = {
+  name: string;
+  age: string;
+  setName:(val:string) => void;
+  setAge:(val:string) => void;
 
-  const InputTutorial = () => {
-  const [name, setName] = useState('Seva');
-  const [age, setAge] = useState('31');
 
+}
+
+  const InputTutorial: React.FC<Props> = (props) => {
+  const {name,age, setName, setAge}=props
   return (
     <View style={styles.container}>
       <Text>Enter name:</Text>

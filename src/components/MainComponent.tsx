@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import {Link} from '@react-navigation/native';
 
@@ -6,6 +6,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import InputTutorial from "./tutorial/InputTutorial";
+
+
 
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
@@ -16,6 +18,9 @@ type Props = {
 
 const MainComponent: React.FC<Props> = (props) => {
   const {navigation} = props;
+  const [name, setName] = useState('Seva');
+  const [age, setAge] = useState('31');
+
 
   return (
     <View style={styles.container}>
@@ -40,7 +45,11 @@ const MainComponent: React.FC<Props> = (props) => {
           <Text style={styles.buttonText}>Reports</Text>
         </View>
       </Link>
-        <InputTutorial />
+      <Text>
+        {name} {age}
+      </Text>
+
+        <InputTutorial name={name} age={age} setName={setName} setAge={setAge} />
 
     </View>
 
