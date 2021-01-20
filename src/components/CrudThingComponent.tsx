@@ -126,7 +126,7 @@ class CrudThingComponent extends React.Component<
       <Picker
         mode="dropdown"
         selectedValue={this.state.minutes}
-        itemStyle={{textAlign: 'center', color: ''}}
+        style={styles.container}
         onValueChange={(itemValue) => this.setState({minutes: itemValue})}>
         {minutes.map((minute) => (
           <Picker.Item label={minute.key} value={minute.value} />
@@ -145,7 +145,7 @@ class CrudThingComponent extends React.Component<
       <Picker
         mode="dropdown"
         selectedValue={this.state.color}
-        itemStyle={{textAlign: 'center', color: ''}}
+        style={styles.container}
         onValueChange={(itemValue) => this.setState({color: itemValue})}>
         {colors.map((color) => (
           <Picker.Item

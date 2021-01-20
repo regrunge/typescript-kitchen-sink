@@ -1,35 +1,35 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 import theme from '../../../theme';
 
 export default StyleSheet.create({
-    itemContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        padding: theme.spacing.xs,
-        alignItems: 'center',
-    },
-    itemTextBlock: {
-        flexGrow: 1,
-    },
-    icon: {
-        ...theme.typography.icon,
-    },
-    iconSuccess: {
-        color: theme.colors.success,
-    },
-    iconError: {
-        color: theme.colors.error,
-    },
-    header: {
-        ...theme.typography.h6,
-    },
-    subheader: {
-        ...theme.typography.body,
-    },
-    colorWrapper: {
-        width: 24,
-        height: 24,
-        borderRadius: 8,
-        marginRight: 8,
-    }
+  itemContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: theme.spacing.xs,
+    alignItems: 'center',
+  },
+  itemTextBlock: {
+    flexGrow: 1,
+  },
+  icon: {
+    ...theme.typography.icon,
+  },
+  iconSuccess: {
+    color: theme.colors.success,
+  },
+  iconError: {
+    color: theme.colors.error,
+  },
+  header: {
+    ...theme.typography.h6,
+  },
+  subheader: {
+    ...theme.typography.body,
+  },
+  colorWrapper: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    marginRight: 8,
+  },
 });
