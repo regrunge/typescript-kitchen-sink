@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import {Link} from '@react-navigation/native';
+import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import InputTutorial from "./tutorial/InputTutorial";
 
-
-
-
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
+type MainScreenRouteProp = RouteProp<RootStackParamList, 'Main'>;
 
 type Props = {
   navigation: MainScreenNavigationProp;
+  route: MainScreenRouteProp;
 };
 
 const MainComponent: React.FC<Props> = (props) => {
-  const {navigation} = props;
+  const { navigation, route } = props;
   const [name, setName] = useState('Seva');
   const [age, setAge] = useState('31');
 
@@ -25,7 +24,9 @@ const MainComponent: React.FC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <Text>Main Component</Text>
-      <List />
+
+      <List navigation={navigation} />
+
       <Link to="/CRUD">
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonText}>

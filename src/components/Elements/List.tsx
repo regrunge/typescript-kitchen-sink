@@ -6,6 +6,7 @@ import {ThingType} from '../../models/thing';
 
 type ListProps = {
   things: ThingType[];
+  navigation: any;
 };
 
 const sortingByTitle = (things: DataItem[]) => {
@@ -31,15 +32,13 @@ const List: React.FC<ListProps> = (props: ListProps) => {
   const onPress = (id: string | number) => {
     const oldElements = [...elements];
     const filter = oldElements.filter((item) => item.id === id);
-    const filter2 = oldElements.filter((item) => item.id !== id);
     const needle = filter[0];
     Alert.alert(`You clicked ${needle.headerText}`, `${needle.id}`);
     needle.completedToday = !needle.completedToday;
   };
 
   const onLongPress = (id: string | number) => {
-    const oldElements = [...elements];
-    const filtered = oldElements.filter((item) => item.id !== id);
+    props.navigation.navigate('CRUD', { id });
   };
 
   const handleReset = () => {};
