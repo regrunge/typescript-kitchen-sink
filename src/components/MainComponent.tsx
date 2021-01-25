@@ -6,6 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import InputTutorial from "./tutorial/InputTutorial";
+import Timer from "./Elements/Timer";
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 type MainScreenRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -17,15 +18,26 @@ type Props = {
 
 const MainComponent: React.FC<Props> = (props) => {
   const { navigation, route } = props;
-  const [name, setName] = useState('Seva');
-  const [age, setAge] = useState('31');
+  const [showTimer, setShowTimer] = useState(false);
+  const [maxTimer, setMaxTimer] = useState(10);
 
+  const onSelected = (id: string | number | null) => {
+    setShowTimer(true);
+    setMaxTimer(12);
+  };
+
+  const onComplete = () => {
+    setShowTimer(false);
+    setMaxTimer(10);
+  };
 
   return (
     <View style={styles.container}>
       <Text>Main Component</Text>
 
-      <List navigation={navigation} />
+      <Timer show={showTimer} max={maxTimer} onComplete={onComplete}/>
+
+      <List navigation={navigation} onSelected={onSelected}/>
 
       <Link to="/CRUD">
         <View style={styles.buttonContainer}>
@@ -46,11 +58,6 @@ const MainComponent: React.FC<Props> = (props) => {
           <Text style={styles.buttonText}>Reports</Text>
         </View>
       </Link>
-      <Text>
-        {name} {age}
-      </Text>
-
-        <InputTutorial name={name} age={age} setName={setName} setAge={setAge} />
 
     </View>
 
