@@ -7,6 +7,7 @@ import {ThingType} from '../../models/thing';
 type ListProps = {
   things: ThingType[];
   navigation: any;
+  onSelected: (thing: string | number | null) => void;
 };
 
 const sortingByTitle = (things: DataItem[]) => {
@@ -31,10 +32,9 @@ const List: React.FC<ListProps> = (props: ListProps) => {
 
   const onPress = (id: string | number) => {
     const oldElements = [...elements];
-    const filter = oldElements.filter((item) => item.id === id);
-    const needle = filter[0];
-    Alert.alert(`You clicked ${needle.headerText}`, `${needle.id}`);
-    needle.completedToday = !needle.completedToday;
+    const needle = oldElements.find((item) => item.id === id);
+
+    props.onSelected(needle?.id || null);
   };
 
   const onLongPress = (id: string | number) => {
