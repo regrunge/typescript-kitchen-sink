@@ -10,9 +10,9 @@ import {
 import {Picker} from '@react-native-picker/picker';
 
 import CheckBox from '@react-native-community/checkbox';
-import Thing from '../models/thing';
+import Thing, { ThingType } from '../models/thing';
 import {connect, ConnectedProps} from 'react-redux';
-import {addThing} from '../redux/dispatch/things';
+import { addThing, editThing } from '../redux/dispatch/things';
 import Card from './Elements/Card';
 import {daysOfTheWeek} from '../utils';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -24,11 +24,21 @@ const uuid = require('react-native-uuid');
 import materialUiColors from '../theme/material-ui-colors';
 import durationMinutes from '../components/Elements/minutesPicker';
 
-const mapDispatchToProps = {
-  addThingProp: (thing: Thing) => addThing(thing), // REDUX action
+const mapStateToProps = (state: any, ownProps: HomeComponentProps) =>  {
+  const routeId = ownProps.route.params.id;
+  const oneThing = state.things.find((t: ThingType) => t.id === routeId);
+
+  return {
+    oneThing: oneThing || null,
+  }
 };
 
-const connector = connect(null, mapDispatchToProps);
+const mapDispatchToProps = {
+  addThingProp: (thing: Thing) => addThing(thing), // REDUX action
+  editThingProp: (thing: Thing) => editThing(thing), // REDUX action
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type CRUDScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CRUD'>;
 
@@ -47,34 +57,53 @@ type StateType = {
   minutes: number;
 };
 
-class CrudThingComponent extends React.Component<
+class CrudThingComponent extends React.PureComponent<
   HomeComponentProps & ConnectedProps<typeof connector>
 > {
+
   state: StateType = {
     daysCheckboxes: [false, false, false, false, false, false, false],
     color: '#000000',
     name: '',
-    showDaysThingy: false,
     minutes: 60,
+    showDaysThingy: false,
   };
 
-  createThing = () => {
+  componentDidMount(): void {
+    const { oneThing } = this.props;
+
+    if (oneThing) {
+      this.setState((prevState: StateType) => ({
+        daysCheckboxes: oneThing.weeklyRecurrence || prevState.daysCheckboxes,
+        color: oneThing.color || prevState.color,
+        name: oneThing.name || prevState.name,
+        minutes: oneThing.durationMinutes || prevState.minutes,
+      }));
+    }
+  }
+
+  createUpdateThing = () => {
     const newThing = {
       name: this.state.name,
       durationMinutes: this.state.minutes,
-      id: uuid.v4(),
+      id: this.props.oneThing?.id || uuid.v4(),
     };
 
     const thing = new Thing(
-      newThing.durationMinutes,
-      newThing.id,
-      newThing.name,
+        newThing.durationMinutes,
+        newThing.id,
+        newThing.name,
     );
 
     thing.weeklyRecurrence = this.state.daysCheckboxes;
     thing.color = this.state.color;
 
-    this.props.addThingProp(thing); // REDUX action
+    if (this.props.oneThing) {
+      this.props.editThingProp(thing); // REDUX action
+    } else {
+      this.props.addThingProp(thing); // REDUX action
+    }
+
     this.props.navigation.goBack();
   };
 
@@ -196,9 +225,9 @@ class CrudThingComponent extends React.Component<
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => this.createThing()}>
+          <TouchableOpacity onPress={() => this.createUpdateThing()}>
             <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>Create Task</Text>
+              <Text style={styles.buttonText}>{route.params.id ? 'Edit' : 'Create'} Task </Text>
             </View>
           </TouchableOpacity>
         </View>

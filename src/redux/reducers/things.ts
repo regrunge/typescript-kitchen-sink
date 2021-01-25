@@ -9,6 +9,13 @@ const things = (state: ThingType[] = [], action: any) => {
             clone.push(action.thing);
 
             return clone;
+        case actions.EDIT_THING:
+            const selectedThingIndex = clone.findIndex(t => t.id === action.thing.id);
+
+            const deletingPrevious = clone.splice(selectedThingIndex, 1, action.thing);
+            console.log(deletingPrevious);
+
+            return clone;
         case actions.COMPLETE_THING:
             // DO STUFF
 
