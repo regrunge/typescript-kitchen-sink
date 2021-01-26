@@ -22,7 +22,6 @@ import MainStack from './src/navigation/MainStack';
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
-  // @ts-ignore
   return (
     <Provider store={store}>
       <NavigationContainer>
