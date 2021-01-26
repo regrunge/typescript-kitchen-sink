@@ -17,6 +17,7 @@ const things = (state: ThingType[] = [], action: any) => {
 
             return clone;
         case actions.COMPLETE_THING:
+
             // DO STUFF
 
             return clone;

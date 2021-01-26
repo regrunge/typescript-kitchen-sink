@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   TextInput,
   ScrollView,
@@ -10,27 +9,27 @@ import {
 import {Picker} from '@react-native-picker/picker';
 
 import CheckBox from '@react-native-community/checkbox';
-import Thing, { ThingType } from '../models/thing';
+import Thing, {ThingType} from '../models/thing';
 import {connect, ConnectedProps} from 'react-redux';
-import { addThing, editThing } from '../redux/dispatch/things';
+import {addThing, editThing} from '../redux/dispatch/things';
 import Card from './Elements/Card';
 import {daysOfTheWeek} from '../utils';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/MainStack';
-
 const uuid = require('react-native-uuid');
 
 import materialUiColors from '../theme/material-ui-colors';
 import durationMinutes from '../components/Elements/minutesPicker';
+import itemStyles from './Elements/styles/itemStyles';
 
-const mapStateToProps = (state: any, ownProps: HomeComponentProps) =>  {
+const mapStateToProps = (state: any, ownProps: HomeComponentProps) => {
   const routeId = ownProps.route.params.id;
   const oneThing = state.things.find((t: ThingType) => t.id === routeId);
 
   return {
     oneThing: oneThing || null,
-  }
+  };
 };
 
 const mapDispatchToProps = {
@@ -60,7 +59,6 @@ type StateType = {
 class CrudThingComponent extends React.PureComponent<
   HomeComponentProps & ConnectedProps<typeof connector>
 > {
-
   state: StateType = {
     daysCheckboxes: [false, false, false, false, false, false, false],
     color: '#000000',
@@ -70,7 +68,7 @@ class CrudThingComponent extends React.PureComponent<
   };
 
   componentDidMount(): void {
-    const { oneThing } = this.props;
+    const {oneThing} = this.props;
 
     if (oneThing) {
       this.setState((prevState: StateType) => ({
@@ -90,9 +88,9 @@ class CrudThingComponent extends React.PureComponent<
     };
 
     const thing = new Thing(
-        newThing.durationMinutes,
-        newThing.id,
-        newThing.name,
+      newThing.durationMinutes,
+      newThing.id,
+      newThing.name,
     );
 
     thing.weeklyRecurrence = this.state.daysCheckboxes;
@@ -120,10 +118,10 @@ class CrudThingComponent extends React.PureComponent<
     return (
       <Card>
         {daysOfTheWeek.map((day) => (
-          <View key={day.id} style={styles.dayCheckboxes}>
+          <View key={day.id} style={itemStyles.dayCheckboxes}>
             <Text>{day.name}</Text>
             <CheckBox
-              style={styles.checkBox}
+              style={itemStyles.checkBox}
               onValueChange={() => this.handleDaysCBChange(day.id)}
               value={this.state.daysCheckboxes[day.id]}
             />
@@ -155,7 +153,7 @@ class CrudThingComponent extends React.PureComponent<
       <Picker
         mode="dropdown"
         selectedValue={this.state.minutes}
-        style={styles.container}
+        style={itemStyles.container}
         onValueChange={(itemValue) => this.setState({minutes: itemValue})}>
         {minutes.map((minute) => (
           <Picker.Item label={minute.key} value={minute.value} />
@@ -174,7 +172,7 @@ class CrudThingComponent extends React.PureComponent<
       <Picker
         mode="dropdown"
         selectedValue={this.state.color}
-        style={styles.container}
+        style={itemStyles.container}
         onValueChange={(itemValue) => this.setState({color: itemValue})}>
         {colors.map((color) => (
           <Picker.Item
@@ -192,7 +190,7 @@ class CrudThingComponent extends React.PureComponent<
 
     return (
       <ScrollView>
-        <View style={styles.container}>
+        <View style={itemStyles.container}>
           {route.params.id && (
             <Text>
               {route.name}: {route.params.id}
@@ -202,7 +200,7 @@ class CrudThingComponent extends React.PureComponent<
           {this.renderMinutesPicker()}
 
           <TextInput
-            style={styles.textInput}
+            style={itemStyles.textInput}
             onChangeText={(text) => this.setState({name: text})}
             value={this.state.name}
             placeholder={'Write stuff!'}
@@ -218,16 +216,18 @@ class CrudThingComponent extends React.PureComponent<
                 showDaysThingy: !oldState.showDaysThingy,
               }))
             }>
-            <View style={styles.buttonContainerSmall}>
-              <Text style={styles.buttonText}>
+            <View style={itemStyles.buttonContainerSmall}>
+              <Text style={itemStyles.buttonText}>
                 {this.state.showDaysThingy ? 'Hide' : 'Show'} Days Result
               </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => this.createUpdateThing()}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>{route.params.id ? 'Edit' : 'Create'} Task </Text>
+            <View style={itemStyles.buttonContainer}>
+              <Text style={itemStyles.buttonText}>
+                {route.params.id ? 'Edit' : 'Create'} Task{' '}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -235,42 +235,5 @@ class CrudThingComponent extends React.PureComponent<
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    flex: 1,
-    margin: 8,
-  },
-  buttonContainer: {
-    backgroundColor: '#90caf9',
-    padding: 16,
-    borderRadius: 35,
-  },
-  buttonContainerSmall: {
-    backgroundColor: '#90caf9',
-    padding: 4,
-    borderRadius: 4,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 24,
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
-  checkBox: {},
-  dayCheckboxes: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginVertical: 8,
-  },
-  textInput: {
-    borderWidth: 1,
-    padding: 8,
-    borderRadius: 8,
-    borderColor: '#aaaaff',
-  },
-});
 
 export default connector(CrudThingComponent);

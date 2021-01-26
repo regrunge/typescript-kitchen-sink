@@ -32,4 +32,38 @@ export default StyleSheet.create({
     borderRadius: 8,
     marginRight: 8,
   },
+  container: {
+    justifyContent: 'center',
+    flex: 1,
+    margin: 8,
+  },
+  buttonContainer: {
+    backgroundColor: '#90caf9',
+    padding: 16,
+    borderRadius: 35,
+  },
+  buttonContainerSmall: {
+    backgroundColor: '#90caf9',
+    padding: 4,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 24,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  checkBox: {},
+  dayCheckboxes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginVertical: 8,
+  },
+  textInput: {
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 8,
+    borderColor: '#aaaaff',
+  },
 });

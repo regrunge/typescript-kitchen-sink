@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Button, Alert} from 'react-native';
+import {View, FlatList, Button} from 'react-native';
 import ListItem, {DataItem} from './ListItem';
 import {connect} from 'react-redux';
 import {ThingType} from '../../models/thing';
@@ -38,7 +38,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
   };
 
   const onLongPress = (id: string | number) => {
-    props.navigation.navigate('CRUD', { id });
+    props.navigation.navigate('CRUD', {id});
   };
 
   const handleReset = () => {};
