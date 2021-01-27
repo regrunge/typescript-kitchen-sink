@@ -54,11 +54,17 @@ const MainComponent: React.FC<Props> = (props) => {
     <View style={itemStyles.container}>
       <Text>Main Component</Text>
 
+        <View style={{ backgroundColor: 'black', width: 200, height: 200, borderBottomLeftRadius: 100, borderBottomRightRadius: 100 }}>
+
+        </View>
+
       <Timer
           show={showTimer}
           max={maxTimer}
           onComplete={onComplete}
       />
+
+
 
       <List navigation={navigation} onSelected={onSelected} />
 
