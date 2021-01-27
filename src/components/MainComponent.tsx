@@ -40,21 +40,21 @@ const MainComponent: React.FC<Props> = (props) => {
       <List navigation={navigation} onSelected={onSelected} />
 
       <Link to="/CRUD">
-        <View style={itemStyles.buttonContainer}>
+        <View style={itemStyles.buttonContainerSmall}>
           <Text style={itemStyles.buttonText}>
-            You don't have any task, create one now
+            You don't have any task, create one
           </Text>
         </View>
       </Link>
       <TouchableOpacity
         onPress={() => navigation.navigate('CRUD', {id: 'aaa12345'})}>
-        <View style={itemStyles.buttonContainer}>
+        <View style={itemStyles.buttonContainerSmall}>
           <Text style={itemStyles.buttonText}>Edit task: aaa12345</Text>
         </View>
       </TouchableOpacity>
 
       <Link to="/Reports">
-        <View style={itemStyles.buttonContainer}>
+        <View style={itemStyles.buttonContainerSmall}>
           <Text style={itemStyles.buttonText}>Reports</Text>
         </View>
       </Link>
