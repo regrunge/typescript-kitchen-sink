@@ -224,7 +224,7 @@ class CrudThingComponent extends React.PureComponent<
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => this.createUpdateThing()}>
-            <View style={itemStyles.buttonContainer}>
+            <View style={itemStyles.buttonContainerSmall}>
               <Text style={itemStyles.buttonText}>
                 {route.params.id ? 'Edit' : 'Create'} Task{' '}
               </Text>

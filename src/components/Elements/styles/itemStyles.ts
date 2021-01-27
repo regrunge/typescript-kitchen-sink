@@ -37,13 +37,8 @@ export default StyleSheet.create({
     flex: 1,
     margin: 8,
   },
-  buttonContainer: {
-    backgroundColor: '#90caf9',
-    padding: 16,
-    borderRadius: 35,
-  },
   buttonContainerSmall: {
-    backgroundColor: '#90caf9',
+    backgroundColor: '#cabbf3',
     padding: 4,
     borderRadius: 4,
   },
