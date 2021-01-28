@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -7,10 +7,10 @@ import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import Timer from './Elements/Timer';
 import itemStyles from './Elements/styles/itemStyles';
-import {connect} from "react-redux";
-import {ThingType} from "../models/thing";
-import Thing from "../models/thing";
-import {addThing, editThing} from "../redux/dispatch/things";
+import {connect} from 'react-redux';
+import {ThingType} from '../models/thing';
+import Thing from '../models/thing';
+import {addThing, editThing} from '../redux/dispatch/things';
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 type MainScreenRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -19,17 +19,18 @@ type Props = {
   navigation: MainScreenNavigationProp;
   route: MainScreenRouteProp;
   things: Thing[];
+  image: any;
 };
 
 const mapStateToProps = (state: any, ownProps: Props) => {
-    return {
-        things: state.things,
-    };
+  return {
+    things: state.things,
+  };
 };
 
 const mapDispatchToProps = {
-    addThingProp: (thing: Thing) => addThing(thing), // REDUX action
-    editThingProp: (thing: Thing) => editThing(thing), // REDUX action
+  addThingProp: (thing: Thing) => addThing(thing), // REDUX action
+  editThingProp: (thing: Thing) => editThing(thing), // REDUX action
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -40,7 +41,9 @@ const MainComponent: React.FC<Props> = (props) => {
   const [maxTimer, setMaxTimer] = useState(69);
 
   const onSelected = (id: string | number | null) => {
-      const thing = props.things.find((t: ThingType) => t.id === id) || { durationMinutes : 0};
+    const thing = props.things.find((t: ThingType) => t.id === id) || {
+      durationMinutes: 0,
+    };
     setShowTimer(true);
     setMaxTimer(thing.durationMinutes * 60);
   };
@@ -54,17 +57,27 @@ const MainComponent: React.FC<Props> = (props) => {
     <View style={itemStyles.container}>
       <Text>Main Component</Text>
 
-        <View style={{ backgroundColor: 'black', width: 200, height: 200, borderBottomLeftRadius: 100, borderBottomRightRadius: 100 }}>
+      <View
+        style={{
+          width: 200,
+          height: 200,
+          borderBottomLeftRadius: 100,
+          borderBottomRightRadius: 100,
+        }}>
+        <Image source={require('./../img/rose.png')} />
+      </View>
 
-        </View>
-
-      <Timer
-          show={showTimer}
-          max={maxTimer}
-          onComplete={onComplete}
+      <View
+        style={{
+          backgroundColor: 'black',
+          width: 200,
+          height: 200,
+          borderBottomLeftRadius: 100,
+          borderBottomRightRadius: 100,
+        }}
       />
 
-
+      <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
 
       <List navigation={navigation} onSelected={onSelected} />
 

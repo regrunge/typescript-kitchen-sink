@@ -38,13 +38,13 @@ export default StyleSheet.create({
     margin: 8,
   },
   buttonContainerSmall: {
-    backgroundColor: '#cabbf3',
+    backgroundColor: '#112940',
     padding: 4,
     borderRadius: 4,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 24,
+    color: '#dddfde',
+    fontSize: 18,
     textTransform: 'uppercase',
     textAlign: 'center',
   },
