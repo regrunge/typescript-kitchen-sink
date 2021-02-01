@@ -57,25 +57,20 @@ const MainComponent: React.FC<Props> = (props) => {
     <View style={itemStyles.container}>
       <Text>Main Component</Text>
 
-      <View
-        style={{
-          width: 200,
-          height: 200,
-          borderBottomLeftRadius: 100,
-          borderBottomRightRadius: 100,
-        }}>
-        <Image source={require('./../img/rose.png')} />
+      <View>
+        <Image
+          source={require('./../img/rose.png')}
+          style={{
+            width: 200,
+            height: 200,
+            borderBottomLeftRadius: 100,
+            borderBottomRightRadius: 100,
+            marginLeft: 90,
+          }}
+        />
       </View>
 
-      <View
-        style={{
-          backgroundColor: 'black',
-          width: 200,
-          height: 200,
-          borderBottomLeftRadius: 100,
-          borderBottomRightRadius: 100,
-        }}
-      />
+      <View />
 
       <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
 
