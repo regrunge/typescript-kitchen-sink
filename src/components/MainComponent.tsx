@@ -61,11 +61,13 @@ const MainComponent: React.FC<Props> = (props) => {
         <Image
           source={require('./../img/rose.png')}
           style={{
-            width: 200,
-            height: 200,
+            width: 220,
+            height: 350,
             borderBottomLeftRadius: 100,
             borderBottomRightRadius: 100,
             marginLeft: 90,
+            position: "absolute",
+            top: 0,
           }}
         />
       </View>
