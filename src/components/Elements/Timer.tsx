@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Easing} from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import {Button} from "react-native-elements";
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {Button} from 'react-native-elements';
+
 
 type TimerProps = {
   show: boolean;
@@ -10,16 +11,15 @@ type TimerProps = {
 };
 
 const Timer: React.FC<TimerProps> = (props: TimerProps) => {
-  const { show, max } = props;
+  const {show, max} = props;
 
   const [counter, setCounter] = React.useState(0);
   const [normalizedCounter, setNormalizedCounter] = React.useState(0);
   const [start, setStart] = React.useState(true);
   const [completed, setCompleted] = React.useState(false);
 
-
   const normalizer = (cntr: number) => {
-    const normalized = cntr * 100 / max;
+    const normalized = (cntr * 100) / max;
     setNormalizedCounter(normalized);
   };
 
@@ -61,36 +61,40 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
     const seconds = max - counter;
 
     if (seconds >= 60) {
-      return Math.floor(seconds / 60) + 'm' + ' ' + seconds % 60 + 's';
+      return Math.floor(seconds / 60) + 'm' + ' ' + (seconds % 60) + 's';
     }
 
     return seconds + 's';
   };
 
   return (
+    <View style={styles.container}>
+      <AnimatedCircularProgress
+        size={250}
+        width={2}
+        backgroundWidth={4}
+        fill={normalizedCounter}
+        tintColor={'#e3c2e5'}
+        tintColorSecondary={'#859dac'}
+        backgroundColor="#555555"
+        rotation={-90}
+        lineCap={'round'}
+        arcSweepAngle={180}
+        duration={1000}
+        easing={Easing.linear}
+        style={{transform: [{rotateZ: '180deg'}, {rotateY: '180deg'}]}}
+      />
 
-        <View style={styles.container}>
-          <AnimatedCircularProgress
-              size={300}
-              width={2}
-              backgroundWidth={4}
-              fill={normalizedCounter}
-              tintColor={'#ff8800'}
-              tintColorSecondary={'#00ff88'}
-              backgroundColor="#333333"
-              rotation={-90}
-              lineCap={'round'}
-              arcSweepAngle={180}
-              duration={1000}
-              easing={Easing.linear}
-              style={{ transform: [{ rotateZ: '180deg' }, { rotateY: '180deg' }] }}
-          />
+      <Text style={textStyle}>{renderLabel()}</Text>
 
-          <Text style={textStyle}>{renderLabel()}</Text>
-
-          <Button onPress={() => { setStart(!start); setCounter(0)}} title={'GO'} />
-        </View>
-
+      <Button
+        onPress={() => {
+          setStart(!start);
+          setCounter(0);
+        }}
+        title={'GO'}
+      />
+    </View>
   );
 };
 
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });
 
 export default Timer;
