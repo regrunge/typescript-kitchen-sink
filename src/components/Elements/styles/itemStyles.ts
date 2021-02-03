@@ -33,10 +33,33 @@ export default StyleSheet.create({
     marginRight: 8,
   },
   container: {
-    justifyContent: 'center',
     flex: 1,
-    margin: 8,
+    margin: 0,
+    backgroundColor:'red',
   },
+  containerChildTop: {
+    flex: 3,
+    margin: 0,
+    flexDirection: 'row' as 'row',
+  },
+  containerChildBottom: {
+    flex: 2,
+    margin: 0,
+  },
+  containerChildCenter: {
+    flex: 1,
+    margin: 0,
+    alignItems: 'center',
+
+  },
+  containerChildColumn: {
+    width: 40,
+    padding: 8,
+    marginTop: 40,
+    alignItems: 'center',
+
+  },
+
   buttonContainerSmall: {
     backgroundColor: '#112940',
     padding: 4,
@@ -54,6 +77,15 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginVertical: 8,
+  },
+  imageContainer: {
+    width: 280,
+    height: 550,
+    borderBottomLeftRadius: 200,
+    borderBottomRightRadius: 200,
+    position: 'relative',
+    top: -200,
+    marginBottom: -400,
   },
   textInput: {
     borderWidth: 1,

@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, Easing} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Button} from 'react-native-elements';
 
-
 type TimerProps = {
   show: boolean;
   max: number;
@@ -69,8 +68,9 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 
   return (
     <View style={styles.container}>
+      <Text style={textStyle}>{renderLabel()}</Text>
       <AnimatedCircularProgress
-        size={250}
+        size={300}
         width={2}
         backgroundWidth={4}
         fill={normalizedCounter}
@@ -82,10 +82,8 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
         arcSweepAngle={180}
         duration={1000}
         easing={Easing.linear}
-        style={{transform: [{rotateZ: '180deg'}, {rotateY: '180deg'}]}}
+        style={styles.timer}
       />
-
-      <Text style={textStyle}>{renderLabel()}</Text>
 
       <Button
         onPress={() => {
@@ -101,18 +99,22 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
 const styles = StyleSheet.create({
   text: {
     padding: 8,
-    color: 'black',
-    fontSize: 64,
+    color: 'white',
+    fontSize: 32,
   },
   textCompleted: {
     padding: 8,
-    color: '#006688',
-    fontSize: 64,
+    color: 'white',
+    fontSize: 32,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  timer: {
+    transform: [{rotateZ: '180deg'}, {rotateY: '180deg'}],
+    marginTop: -250,
   },
 });
 

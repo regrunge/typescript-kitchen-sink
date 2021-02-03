@@ -14,7 +14,7 @@ export type RootStackParamList = {
 
 const MainStack: React.FC<RootStackParamList> = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode={'none'}>
       <Stack.Screen name="Main" component={MainComponent} />
       <Stack.Screen name="CRUD" component={CrudThingComponent} />
       <Stack.Screen name="Reports" component={ReportsComponent} />
