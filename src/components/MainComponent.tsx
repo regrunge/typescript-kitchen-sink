@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Button,
+  Animated,
+} from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -37,8 +44,27 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const MainComponent: React.FC<Props> = (props) => {
   const {navigation, route} = props;
-  const [showTimer, setShowTimer] = useState(false);
-  const [maxTimer, setMaxTimer] = useState(69);
+  const [showTimer, setShowTimer] = React.useState(false);
+  const [maxTimer, setMaxTimer] = React.useState(69);
+
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 200,
+      duration: 3000,
+      useNativeDriver: true,
+
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const onSelected = (id: string | number | null) => {
     const thing = props.things.find((t: ThingType) => t.id === id) || {
@@ -55,48 +81,55 @@ const MainComponent: React.FC<Props> = (props) => {
 
   return (
     <View style={itemStyles.container}>
-      <Text>Main Component</Text>
+      <View style={itemStyles.containerChildTop}>
+        <View style={itemStyles.containerChildColumn}>
+          <Button title="I" onPress={fadeIn} />
+        </View>
 
-      <View>
-        <Image
-          source={require('./../img/rose.png')}
-          style={{
-            width: 220,
-            height: 350,
-            borderBottomLeftRadius: 100,
-            borderBottomRightRadius: 100,
-            marginLeft: 90,
-            position: "absolute",
-            top: 0,
-          }}
-        />
+        <Animated.View
+          style={[
+            itemStyles.containerChildCenter,
+            {transform: [
+                { translateY: fadeAnim },
+                { perspective: 1000 }
+              ]}
+          ]}>
+          <Image
+            source={require('./../img/rose.png')}
+            style={itemStyles.imageContainer}
+          />
+          <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
+        </Animated.View>
+
+        <View style={itemStyles.containerChildColumn}>
+          <Button title="O" onPress={fadeOut} />
+        </View>
       </View>
 
-      <View />
+      {/*Bottom part*/}
+      <View style={itemStyles.containerChildBottom}>
+        <List navigation={navigation} onSelected={onSelected} />
 
-      <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
+        <Link to="/CRUD">
+          <View style={itemStyles.buttonContainerSmall}>
+            <Text style={itemStyles.buttonText}>
+              You don't have any task, create one
+            </Text>
+          </View>
+        </Link>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CRUD', {id: 'aaa12345'})}>
+          <View style={itemStyles.buttonContainerSmall}>
+            <Text style={itemStyles.buttonText}>Edit task: aaa12345</Text>
+          </View>
+        </TouchableOpacity>
 
-      <List navigation={navigation} onSelected={onSelected} />
-
-      <Link to="/CRUD">
-        <View style={itemStyles.buttonContainerSmall}>
-          <Text style={itemStyles.buttonText}>
-            You don't have any task, create one
-          </Text>
-        </View>
-      </Link>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('CRUD', {id: 'aaa12345'})}>
-        <View style={itemStyles.buttonContainerSmall}>
-          <Text style={itemStyles.buttonText}>Edit task: aaa12345</Text>
-        </View>
-      </TouchableOpacity>
-
-      <Link to="/Reports">
-        <View style={itemStyles.buttonContainerSmall}>
-          <Text style={itemStyles.buttonText}>Reports</Text>
-        </View>
-      </Link>
+        <Link to="/Reports">
+          <View style={itemStyles.buttonContainerSmall}>
+            <Text style={itemStyles.buttonText}>Reports</Text>
+          </View>
+        </Link>
+      </View>
     </View>
   );
 };
