@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   Animated,
+  StyleSheet,
 } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
@@ -18,6 +19,9 @@ import {connect} from 'react-redux';
 import {ThingType} from '../models/thing';
 import Thing from '../models/thing';
 import {addThing, editThing} from '../redux/dispatch/things';
+import LinearGradient from 'react-native-linear-gradient';
+import styles from "./Elements/styles/card";
+
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 type MainScreenRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -80,11 +84,12 @@ const MainComponent: React.FC<Props> = (props) => {
   };
 
   return (
-    <View style={itemStyles.container}>
-      <View style={itemStyles.containerChildTop}>
-        <View style={itemStyles.containerChildColumn}>
-          <Button title="I" onPress={fadeIn} />
-        </View>
+
+  <LinearGradient  start={{x: 0, y: 0.10}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
+    <View style={itemStyles.containerChildTop}>
+      <View style={itemStyles.containerChildColumn}>
+        <Button title="I" onPress={fadeIn} />
+      </View>
 
         <Animated.View
           style={[
@@ -130,8 +135,9 @@ const MainComponent: React.FC<Props> = (props) => {
           </View>
         </Link>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
+
 
 export default connector(MainComponent);
