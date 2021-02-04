@@ -70,7 +70,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
     <View style={styles.container}>
       <Text style={textStyle}>{renderLabel()}</Text>
       <AnimatedCircularProgress
-        size={300}
+        size={350}
         width={2}
         backgroundWidth={4}
         fill={normalizedCounter}

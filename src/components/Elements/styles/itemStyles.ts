@@ -35,7 +35,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     margin: 0,
-    backgroundColor:'red',
+    backgroundColor:'white',
   },
   containerChildTop: {
     flex: 3,
