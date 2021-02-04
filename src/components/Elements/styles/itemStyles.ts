@@ -87,6 +87,17 @@ export default StyleSheet.create({
     top: -200,
     marginBottom: -400,
   },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset:{width:0,height:10},
+    shadowOpacity: 0.53,
+    shadowRadius:13.97,
+    elevation: 21,
+  },
+  shadowOffset: {
+    width: 0,
+    height: 11,
+  },
   textInput: {
     borderWidth: 1,
     padding: 8,
