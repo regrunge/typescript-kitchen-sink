@@ -86,7 +86,7 @@ const MainComponent: React.FC<Props> = (props) => {
 
   return (
 
-  <LinearGradient  start={{x: 0, y: 0.10}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
+  <LinearGradient  start={{x: 0, y: 0.09}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
     <View style={itemStyles.containerChildTop}>
       <View style={itemStyles.containerChildColumn}>
         <Button title="I" onPress={fadeIn} />
