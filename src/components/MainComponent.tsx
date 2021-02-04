@@ -83,6 +83,7 @@ const MainComponent: React.FC<Props> = (props) => {
     setMaxTimer(69);
   };
 
+
   return (
 
   <LinearGradient  start={{x: 0, y: 0.10}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
@@ -99,10 +100,14 @@ const MainComponent: React.FC<Props> = (props) => {
                 { perspective: 1000 }
               ]}
           ]}>
-          <Image
-            source={require('./../img/rose.png')}
-            style={itemStyles.imageContainer}
-          />
+          <View style={itemStyles.shadow}>
+            <Image
+              source={require('./../img/rose.png')}
+              style={itemStyles.imageContainer}
+
+            />
+          </View>
+
           <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
         </Animated.View>
 
