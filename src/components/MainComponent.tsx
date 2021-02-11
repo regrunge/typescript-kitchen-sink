@@ -126,6 +126,7 @@ const MainComponent: React.FC<Props> = (props) => {
 
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom}>
+        {/* TODO: follow the onSelected to add a onDeleted */}
         <List navigation={navigation} onSelected={onSelected} />
 
         <Link to="/CRUD">
