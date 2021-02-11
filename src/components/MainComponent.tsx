@@ -46,6 +46,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
+const imageSrc = require('./../img/rose.png');
+
 const MainComponent: React.FC<Props> = (props) => {
   const {navigation, route} = props;
   const [showTimer, setShowTimer] = React.useState(false);
@@ -58,7 +60,6 @@ const MainComponent: React.FC<Props> = (props) => {
       toValue: 200,
       duration: 3000,
       useNativeDriver: true,
-
     }).start();
   };
 
@@ -76,17 +77,24 @@ const MainComponent: React.FC<Props> = (props) => {
     };
     setShowTimer(true);
     setMaxTimer(thing.durationMinutes * 60);
+    fadeIn();
   };
 
   const onComplete = () => {
     setShowTimer(false);
     setMaxTimer(69);
+    fadeOut();
   };
 
 
   return (
 
-  <LinearGradient  start={{x: 0, y: 0.10}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
+  <LinearGradient
+    start={{x: 0, y: 0.10}}
+    end={{x: 0, y: 1}}
+    colors={['#cfdef3','#ffffff']}
+    style={itemStyles.container}
+  >
     <View style={itemStyles.containerChildTop}>
       <View style={itemStyles.containerChildColumn}>
         <Button title="I" onPress={fadeIn} />
@@ -102,9 +110,8 @@ const MainComponent: React.FC<Props> = (props) => {
           ]}>
           <View style={itemStyles.shadow}>
             <Image
-              source={require('./../img/rose.png')}
+              source={imageSrc}
               style={itemStyles.imageContainer}
-
             />
           </View>
 
@@ -119,20 +126,6 @@ const MainComponent: React.FC<Props> = (props) => {
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom}>
         <List navigation={navigation} onSelected={onSelected} />
-
-        <Link to="/CRUD">
-          <View style={itemStyles.buttonContainerSmall}>
-            <Text style={itemStyles.buttonText}>
-              You don't have any task, create one
-            </Text>
-          </View>
-        </Link>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('CRUD', {id: 'aaa12345'})}>
-          <View style={itemStyles.buttonContainerSmall}>
-            <Text style={itemStyles.buttonText}>Edit task: aaa12345</Text>
-          </View>
-        </TouchableOpacity>
 
         <Link to="/Reports">
           <View style={itemStyles.buttonContainerSmall}>
