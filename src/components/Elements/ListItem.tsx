@@ -35,7 +35,7 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
   const renderDaysOfTheWeek = () => (
     <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
       {weeklyRecurrence &&
-        weeklyRecurrence.map((day) => <Text>{day ? 'X' : 'O'}</Text>)}
+        weeklyRecurrence.map((day, i) => <Text key={i}>{day ? 'X' : 'O'}</Text>)}
     </View>
   );
 

@@ -11,7 +11,7 @@ import {Picker} from '@react-native-picker/picker';
 import CheckBox from '@react-native-community/checkbox';
 import Thing, {ThingType} from '../models/thing';
 import {connect, ConnectedProps} from 'react-redux';
-import {addThing, editThing} from '../redux/dispatch/things';
+import {addThing, editThing, deleteThing} from '../redux/dispatch/things';
 import Card from './Elements/Card';
 import {daysOfTheWeek} from '../utils';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -35,6 +35,7 @@ const mapStateToProps = (state: any, ownProps: HomeComponentProps) => {
 const mapDispatchToProps = {
   addThingProp: (thing: Thing) => addThing(thing), // REDUX action
   editThingProp: (thing: Thing) => editThing(thing), // REDUX action
+  deleteThingProp: (id: string) => deleteThing(id), // REDUX action
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -105,6 +106,14 @@ class CrudThingComponent extends React.PureComponent<
     this.props.navigation.goBack();
   };
 
+  deleteThing = () => {
+    if (this.props.oneThing) {
+      this.props.deleteThingProp(this.props.oneThing.id); // REDUX action
+    }
+
+    this.props.navigation.goBack();
+  };
+
   handleDaysCBChange = (dayIndex: number) => {
     this.setState((oldState: StateType) => {
       const daysCheckboxes = [...oldState.daysCheckboxes];
@@ -156,7 +165,7 @@ class CrudThingComponent extends React.PureComponent<
         style={itemStyles.container}
         onValueChange={(itemValue) => this.setState({minutes: itemValue})}>
         {minutes.map((minute) => (
-          <Picker.Item label={minute.key} value={minute.value} />
+          <Picker.Item label={minute.key} value={minute.value} key={minute.value}/>
         ))}
       </Picker>
     );
@@ -179,6 +188,7 @@ class CrudThingComponent extends React.PureComponent<
             color={color.value}
             label={color.key}
             value={color.value}
+            key={color.value}
           />
         ))}
       </Picker>
@@ -230,6 +240,16 @@ class CrudThingComponent extends React.PureComponent<
               </Text>
             </View>
           </TouchableOpacity>
+
+          {route.params.id && (
+            <TouchableOpacity onPress={() => this.deleteThing()}>
+              <View style={itemStyles.buttonContainerSmall}>
+                <Text style={itemStyles.buttonText}>
+                  DELETE
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     );

@@ -50,14 +50,12 @@ export default StyleSheet.create({
     flex: 1,
     margin: 0,
     alignItems: 'center',
-
   },
   containerChildColumn: {
     width: 40,
     padding: 8,
     marginTop: 40,
     alignItems: 'center',
-
   },
 
   buttonContainerSmall: {
@@ -85,7 +83,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: 200,
     position: 'relative',
     top: -200,
-    marginBottom: -400,
+    marginBottom: -466,
   },
   shadow: {
     shadowColor: '#000',

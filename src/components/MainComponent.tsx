@@ -2,11 +2,10 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
   Button,
   Animated,
-  StyleSheet,
+  Easing,
 } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
@@ -57,17 +56,19 @@ const MainComponent: React.FC<Props> = (props) => {
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
-      toValue: 200,
-      duration: 3000,
+      toValue: 100,
+      duration: 2000,
       useNativeDriver: true,
+      easing: Easing.out(Easing.elastic(1)),
     }).start();
   };
 
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 3000,
+      duration: 2000,
       useNativeDriver: true,
+      easing: Easing.in(Easing.elastic(1)),
     }).start();
   };
 
@@ -127,6 +128,11 @@ const MainComponent: React.FC<Props> = (props) => {
       <View style={itemStyles.containerChildBottom}>
         <List navigation={navigation} onSelected={onSelected} />
 
+        <Link to="/CRUD">
+          <View style={itemStyles.buttonContainerSmall}>
+            <Text style={itemStyles.buttonText}>Create</Text>
+          </View>
+        </Link>
         <Link to="/Reports">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Reports</Text>

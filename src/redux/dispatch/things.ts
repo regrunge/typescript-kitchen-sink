@@ -1,10 +1,17 @@
-import { ADD_THING, EDIT_THING, ADD_COLORPICKER } from "../actions";
+import { ADD_THING, EDIT_THING, DELETE_THING } from "../actions";
 import {ThingType} from "../../models/thing";
 
 export const addThing = (thing: ThingType) => {
     return {
         type: ADD_THING,
         thing,
+    };
+};
+
+export const deleteThing = (id: string) => {
+    return {
+        type: DELETE_THING,
+        id,
     };
 };
 
@@ -15,10 +22,5 @@ export const editThing = (thing: ThingType) => {
     };
 };
 
-export const Picker = () => {
-    return {
-      type: ADD_COLORPICKER,
-      color:''
-    };
-};
 
+// TODO: Seva! duplicte this file

@@ -30,8 +30,6 @@ export const ArraysTutorial: React.FC<ArraysTutorialProps> = (props) => {
   const filteredArray = initialArray.filter((fruit) => {
     return fruit !== 'apple';
   });
-
-  // TODO: checkout...
   // .map()
   // .filter()
   // .forEach()

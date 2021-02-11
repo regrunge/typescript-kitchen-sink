@@ -15,19 +15,24 @@ import React from 'react';
 import {StatusBar} from 'react-native';
 
 import {Provider} from 'react-redux';
-import store from './src/redux';
+import redux from './src/redux';
+import { PersistGate } from 'redux-persist/integration/react'
 
 import MainStack from './src/navigation/MainStack';
+
+const { store, persistor } = redux();
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar barStyle="dark-content" />
-        <MainStack/>
-      </NavigationContainer>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <StatusBar barStyle="dark-content" />
+            <MainStack />
+          </NavigationContainer>
+        </PersistGate>
     </Provider>
   );
 };
