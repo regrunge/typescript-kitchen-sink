@@ -12,8 +12,12 @@ const things = (state: ThingType[] = [], action: any) => {
         case actions.EDIT_THING:
             const selectedThingIndex = clone.findIndex(t => t.id === action.thing.id);
 
-            const deletingPrevious = clone.splice(selectedThingIndex, 1, action.thing);
-            console.log(deletingPrevious);
+            clone.splice(selectedThingIndex, 1, action.thing);
+
+            return clone;
+        case actions.DELETE_THING:
+            const selectedThingIndexTBD = clone.findIndex(t => t.id === action.id);
+            clone.splice(selectedThingIndexTBD, 1);
 
             return clone;
         case actions.COMPLETE_THING:
@@ -27,3 +31,4 @@ const things = (state: ThingType[] = [], action: any) => {
 };
 
 export default things;
+// TODO: Seva! duplicte this file

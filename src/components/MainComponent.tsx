@@ -2,11 +2,10 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
   Button,
   Animated,
-  StyleSheet,
+  Easing,
 } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
@@ -46,6 +45,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
+const imageSrc = require('./../img/rose.png');
+
 const MainComponent: React.FC<Props> = (props) => {
   const {navigation, route} = props;
   const [showTimer, setShowTimer] = React.useState(false);
@@ -55,18 +56,19 @@ const MainComponent: React.FC<Props> = (props) => {
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
-      toValue: 200,
-      duration: 3000,
+      toValue: 100,
+      duration: 2000,
       useNativeDriver: true,
-
+      easing: Easing.out(Easing.elastic(1)),
     }).start();
   };
 
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 3000,
+      duration: 2000,
       useNativeDriver: true,
+      easing: Easing.in(Easing.elastic(1)),
     }).start();
   };
 
@@ -76,17 +78,24 @@ const MainComponent: React.FC<Props> = (props) => {
     };
     setShowTimer(true);
     setMaxTimer(thing.durationMinutes * 60);
+    fadeIn();
   };
 
   const onComplete = () => {
     setShowTimer(false);
     setMaxTimer(69);
+    fadeOut();
   };
 
 
   return (
 
-  <LinearGradient  start={{x: 0, y: 0.10}} end={{x: 0, y: 1}} colors={['#cfdef3','#ffffff']} style={itemStyles.container}>
+  <LinearGradient
+    start={{x: 0, y: 0.10}}
+    end={{x: 0, y: 1}}
+    colors={['#cfdef3','#ffffff']}
+    style={itemStyles.container}
+  >
     <View style={itemStyles.containerChildTop}>
       <View style={itemStyles.containerChildColumn}>
         <Button title="I" onPress={fadeIn} />
@@ -102,9 +111,8 @@ const MainComponent: React.FC<Props> = (props) => {
           ]}>
           <View style={itemStyles.shadow}>
             <Image
-              source={require('./../img/rose.png')}
+              source={imageSrc}
               style={itemStyles.imageContainer}
-
             />
           </View>
 
@@ -118,22 +126,14 @@ const MainComponent: React.FC<Props> = (props) => {
 
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom}>
+        {/* TODO: follow the onSelected to add a onDeleted */}
         <List navigation={navigation} onSelected={onSelected} />
 
         <Link to="/CRUD">
           <View style={itemStyles.buttonContainerSmall}>
-            <Text style={itemStyles.buttonText}>
-              You don't have any task, create one
-            </Text>
+            <Text style={itemStyles.buttonText}>Create</Text>
           </View>
         </Link>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('CRUD', {id: 'aaa12345'})}>
-          <View style={itemStyles.buttonContainerSmall}>
-            <Text style={itemStyles.buttonText}>Edit task: aaa12345</Text>
-          </View>
-        </TouchableOpacity>
-
         <Link to="/Reports">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Reports</Text>

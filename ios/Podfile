@@ -15,6 +15,8 @@ target 'TimeSpent' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'OpenSSL-Universal', '~>1.0.2.20'
+
   target 'TimeSpentTests' do
     inherit! :complete
     # Pods for testing

@@ -35,7 +35,7 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
   const renderDaysOfTheWeek = () => (
     <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
       {weeklyRecurrence &&
-        weeklyRecurrence.map((day) => <Text>{day ? 'X' : 'O'}</Text>)}
+        weeklyRecurrence.map((day, i) => <Text key={i}>{day ? 'X' : 'O'}</Text>)}
     </View>
   );
 
@@ -45,6 +45,7 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
   ]);
 
   return (
+      <>
     <TouchableOpacity
       onPress={() => onPress(id)}
       key={index}
@@ -63,10 +64,16 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
               <Icon name={'cancel'} style={[styles.icon, styles.iconError]} />
             )}
           </View>
+          {/* TODO: add delete button for thing*/}
         </View>
         <View>{renderDaysOfTheWeek()}</View>
       </Card>
     </TouchableOpacity>
+        <View>
+          {/* TODO: add delete button for thing*/}
+          <Text>DELETE</Text>
+        </View>
+        </>
   );
 };
 

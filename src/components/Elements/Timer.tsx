@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Easing} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import {Button} from 'react-native-elements';
+import {Circle} from "react-native-svg";
 
 type TimerProps = {
   show: boolean;
@@ -83,14 +83,12 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
         duration={1000}
         easing={Easing.linear}
         style={styles.timer}
-      />
-
-      <Button
-        onPress={() => {
-          setStart(!start);
-          setCounter(0);
-        }}
-        title={'GO'}
+        renderCap={({ center }) => (
+            <>
+              <Circle cx={center.x} cy={center.y} r="8" fill="black" />
+              <Circle cx={center.x} cy={center.y} r="6" fill="white" />
+            </>
+          )}
       />
     </View>
   );
