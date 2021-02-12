@@ -33,3 +33,6 @@ class Thing implements ThingType {
 }
 
 export default Thing;
+
+export class SessionType {
+}

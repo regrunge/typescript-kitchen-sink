@@ -1,9 +1,10 @@
-import {ADD_THING, EDIT_THING, DELETE_THING} from '../actions';
+import { EDIT_THING, DELETE_THING, ADD_SESSION} from '../actions';
 import {ThingType} from '../../models/thing';
+import { SessionType } from '../../models/session';
 
-export const addThing = (thing: ThingType) => {
+export const sessionThing = (thing: SessionType) => {
   return {
-    type: ADD_THING,
+    type: ADD_SESSION,
     thing,
   };
 };
@@ -21,7 +22,3 @@ export const editThing = (thing: ThingType) => {
     thing,
   };
 };
-
-// TODO: Seva! duplicte this file
-export class completeThing {
-}
