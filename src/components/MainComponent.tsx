@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  Animated,
-  Easing,
-} from 'react-native';
+import { View, Text, Image, Button, Animated, Easing } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -17,10 +10,10 @@ import itemStyles from './Elements/styles/itemStyles';
 import {connect} from 'react-redux';
 import {ThingType} from '../models/thing';
 import Thing from '../models/thing';
-import {addThing, editThing} from '../redux/dispatch/things';
+import { addThing, deleteThing, editThing, sessionThing } from '../redux/dispatch/things';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from "./Elements/styles/card";
-
+import {Icon} from 'react-native-elements';
+import {SessionType} from '../models/session';
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 type MainScreenRouteProp = RouteProp<RootStackParamList, 'Main'>;
@@ -41,6 +34,8 @@ const mapStateToProps = (state: any, ownProps: Props) => {
 const mapDispatchToProps = {
   addThingProp: (thing: Thing) => addThing(thing), // REDUX action
   editThingProp: (thing: Thing) => editThing(thing), // REDUX action
+  deleteThingProp: (thing: Thing) => deleteThing(thing),
+  sessionThingProp: (thing: SessionType) => sessionThing(thing),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -81,6 +76,10 @@ const MainComponent: React.FC<Props> = (props) => {
     fadeIn();
   };
 
+  const onDeleted = id = e => {
+    const thing = props.things.find((t: ThingType) => t.id === id);
+  };
+
   const onComplete = () => {
     setShowTimer(false);
     setMaxTimer(69);
@@ -88,32 +87,25 @@ const MainComponent: React.FC<Props> = (props) => {
   };
 
 
-  return (
 
-  <LinearGradient
-    start={{x: 0, y: 0.10}}
-    end={{x: 0, y: 1}}
-    colors={['#cfdef3','#ffffff']}
-    style={itemStyles.container}
-  >
-    <View style={itemStyles.containerChildTop}>
-      <View style={itemStyles.containerChildColumn}>
-        <Button title="I" onPress={fadeIn} />
-      </View>
+  return (
+    <LinearGradient
+      start={{x: 0, y: 0.1}}
+      end={{x: 0, y: 1}}
+      colors={['#cfdef3', '#ffffff']}
+      style={itemStyles.container}>
+      <View style={itemStyles.containerChildTop}>
+        <View style={itemStyles.containerChildColumn}>
+          <Button title="I" onPress={fadeIn} />
+        </View>
 
         <Animated.View
           style={[
             itemStyles.containerChildCenter,
-            {transform: [
-                { translateY: fadeAnim },
-                { perspective: 1000 }
-              ]}
+            {transform: [{translateY: fadeAnim}, {perspective: 1000}]},
           ]}>
           <View style={itemStyles.shadow}>
-            <Image
-              source={imageSrc}
-              style={itemStyles.imageContainer}
-            />
+            <Image source={imageSrc} style={itemStyles.imageContainer} />
           </View>
 
           <Timer show={showTimer} max={maxTimer} onComplete={onComplete} />
@@ -125,9 +117,13 @@ const MainComponent: React.FC<Props> = (props) => {
       </View>
 
       {/*Bottom part*/}
-      <View style={itemStyles.containerChildBottom}>
+      <View style={itemStyles.containerChildBottom} >
         {/* TODO: follow the onSelected to add a onDeleted */}
-        <List navigation={navigation} onSelected={onSelected} />
+        <List
+          navigation={navigation}
+          onSelected={onSelected}
+          onDeleted={onDeleted}
+        />
 
         <Link to="/CRUD">
           <View style={itemStyles.buttonContainerSmall}>
@@ -143,6 +139,5 @@ const MainComponent: React.FC<Props> = (props) => {
     </LinearGradient>
   );
 };
-
 
 export default connector(MainComponent);
