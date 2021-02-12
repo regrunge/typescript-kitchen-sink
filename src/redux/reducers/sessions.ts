@@ -1,11 +1,12 @@
 import actions from '../actions';
-import {ThingType} from '../../models/thing';
+import { SessionType } from '../../models/session';
 
-const things = (state: ThingType[] = [], action: any) => {
+
+const things = (state: SessionType[] = [], action: any) => {
   const clone = [...state];
 
   switch (action.type) {
-    case actions.ADD_THING:
+    case actions.ADD_SESSION:
       clone.push(action.thing);
 
       return clone;
@@ -32,4 +33,3 @@ const things = (state: ThingType[] = [], action: any) => {
 };
 
 export default things;
-// TODO: Seva! duplicte this file
