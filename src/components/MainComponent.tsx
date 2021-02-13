@@ -72,6 +72,8 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
   };
 
   const onSelected = (id: string | number | null, elapsedSeconds: number = 0) => {
+    // TODO: Seva! If there is an active session OR showTimer is true DO NOT execute this code
+
     const thing = props.things.find((t: ThingType) => t.id === id) || {
       durationMinutes: 0,
     };
@@ -145,17 +147,21 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom} >
         {/* TODO: Seva, follow the onSelected to add a onDeleted */}
+        {/* TODO: Seva, fix the style of ListItems */}
         <List
           navigation={navigation}
           onSelected={onSelected}
           onDelete={onDeleted}
         />
 
+        {/* TODO: Seva, move the create Task button on TOP RIGHT */}
         <Link to="/CRUD">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Create</Text>
           </View>
         </Link>
+
+        {/* TODO: Seva, move the report button on TOP LEFT */}
         <Link to="/Reports">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Reports</Text>

@@ -35,7 +35,7 @@ const ReportsComponent: React.FC<Props & ConnectedProps<typeof connector>> = (pr
             return (
                 <View key={i}>
                     <Text>{s.id}</Text>
-                    <Text>{thing.name}</Text>
+                    {thing && (<Text>{thing.name}</Text>)}
                     <Text>{s.completed ? 'Y' : 'N'}</Text>
                     <Text>{s.elapsedMinutes}</Text>
                     <Text>{(new Date(s.date)).getTime()}</Text>
