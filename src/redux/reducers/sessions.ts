@@ -31,6 +31,8 @@ const sessions = (state: SessionType[] = [], action: any) => {
       clone.splice(selectedSessionIndexTBD, 1);
 
       return clone;
+    case actions.RESET_SESSIONS:
+      return [];
     default:
       return state;
   }

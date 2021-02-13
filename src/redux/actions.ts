@@ -4,6 +4,7 @@ export const DELETE_THING = 'DELETE_THING';
 export const ADD_SESSION = 'ADD_SESSION';
 export const EDIT_SESSION = 'EDIT_SESSION';
 export const DELETE_SESSION = 'DELETE_SESSION';
+export const RESET_SESSIONS = 'RESET_SESSIONS';
 
 const actions = {
   ADD_THING,
@@ -12,6 +13,7 @@ const actions = {
   ADD_SESSION,
   EDIT_SESSION,
   DELETE_SESSION,
+  RESET_SESSIONS,
 };
 
 export default actions;

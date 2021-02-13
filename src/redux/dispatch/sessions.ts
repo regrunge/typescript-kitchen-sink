@@ -1,4 +1,4 @@
-import {ADD_SESSION, DELETE_SESSION, EDIT_SESSION} from '../actions';
+import {ADD_SESSION, DELETE_SESSION, EDIT_SESSION, RESET_SESSIONS} from '../actions';
 import {SessionType} from "../../models/session";
 
 export const addSession = (thingId: string | number | null) => {
@@ -15,10 +15,15 @@ export const editSession = (session: SessionType) => {
   };
 };
 
-
 export const deleteSession = (id: string | number | null) => {
   return {
     type: DELETE_SESSION,
     id,
+  };
+};
+
+export const resetSessions = () => {
+  return {
+    type: RESET_SESSIONS,
   };
 };

@@ -1,9 +1,15 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Button} from 'react-native';
 import {connect, ConnectedProps} from "react-redux";
 import {SessionType} from "../models/session";
+import {resetSessions} from "../redux/dispatch/sessions";
+import {ThingType} from "../models/thing";
 
 type Props = {};
+
+const mapDispatchToProps = {
+    resetSessionsProps: () => resetSessions(),
+};
 
 const mapStateToProps = (state: any, ownProps: Props) => {
     return {
@@ -12,7 +18,7 @@ const mapStateToProps = (state: any, ownProps: Props) => {
     };
 };
 
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const ReportsComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props) => {
   return (
@@ -21,13 +27,15 @@ const ReportsComponent: React.FC<Props & ConnectedProps<typeof connector>> = (pr
       <Text>Reports Component: props.sessions.length</Text>
       <Text>Reports Component: props.sessions.length</Text>
       <Text>Reports Component: props.sessions.length</Text>
+        <Button title={'Delete sessions'} onPress={props.resetSessionsProps}/>
       <Text>Reports Component: {props.sessions.length}</Text>
         <ScrollView>
         {props.sessions.map((s: SessionType, i: number) => {
+            const thing = props.things.find((t: ThingType) => t.id === s.thingId);
             return (
                 <View key={i}>
                     <Text>{s.id}</Text>
-                    <Text>{s.thingId}</Text>
+                    <Text>{thing.name}</Text>
                     <Text>{s.completed ? 'Y' : 'N'}</Text>
                     <Text>{s.elapsedMinutes}</Text>
                     <Text>{(new Date(s.date)).getTime()}</Text>
