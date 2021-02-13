@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Easing} from 'react-native';
+import {View, Text, StyleSheet, Easing, Button} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Circle} from "react-native-svg";
 
 type TimerProps = {
   show: boolean;
   max: number;
-  onComplete: () => void;
+  onComplete: (elapsed: number) => void;
 };
 
 const Timer: React.FC<TimerProps> = (props: TimerProps) => {
@@ -23,40 +23,51 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   };
 
   const timerLogic = () => {
-    if (start) {
+    if (!completed) {
       const count = counter + 1;
       if (max >= count) {
+        setCompleted(false);
         setCounter(count);
         normalizer(count);
       } else {
-        props.onComplete();
-        setStart(false);
+        onCompleted();
       }
+    } else {
+      setStart(true);
     }
   };
 
   const textStyle = start ? styles.text : styles.textCompleted;
 
   const onCompleted = () => {
-    console.log('onAnimationComplete');
+    props.onComplete(counter);
+    setCounter(0);
     setCompleted(true);
     setStart(false);
   };
 
-  React.useEffect(() => {
+  const intervalStarter = () => {
     const interval = setInterval(timerLogic, 1000);
 
     return () => clearInterval(interval);
-  }, [counter, start]);
+  };
+
+  React.useEffect(() => {
+    if (show) {
+      setCompleted(false);
+      return intervalStarter();
+    }
+  }, [counter, start, show]);
 
   const renderLabel = () => {
     if (counter === 0) {
-      return 'GO!';
+      return '';
     }
 
-    if (counter === max) {
+    if (completed) {
       return 'GREAT!';
     }
+
     const seconds = max - counter;
 
     if (seconds >= 60) {
@@ -90,6 +101,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
             </>
           )}
       />
+      {!completed && (<Button title={'STOP'} onPress={onCompleted}/>)}
     </View>
   );
 };

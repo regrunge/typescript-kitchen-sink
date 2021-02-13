@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Button, Animated, Easing } from 'react-native';
+import { View, Text, Image, Button, Animated, Easing, Alert } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -11,7 +11,7 @@ import {connect, ConnectedProps} from 'react-redux';
 import {ThingType} from '../models/thing';
 import Thing from '../models/thing';
 import { addThing, deleteThing, editThing } from '../redux/dispatch/things';
-import { addSession } from "../redux/dispatch/sessions";
+import { addSession, editSession, deleteSession } from "../redux/dispatch/sessions";
 
 import LinearGradient from 'react-native-linear-gradient';
 import {SessionType} from '../models/session';
@@ -29,6 +29,7 @@ type Props = {
 const mapStateToProps = (state: any, ownProps: Props) => {
   return {
     things: state.things,
+    sessions: state.sessions,
   };
 };
 
@@ -37,6 +38,8 @@ const mapDispatchToProps = {
   editThingProp: (thing: Thing) => editThing(thing), // REDUX action
   deleteThingProp: (thingId: string | number | null) => deleteThing(thingId),
   addSessionProp: (thingId: string | number | null) => addSession(thingId),
+  editSessionProp: (session: SessionType) => editSession(session),
+  deleteSessionProp: (sessionId: string | number | null) => deleteSession(sessionId),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -68,12 +71,19 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
     }).start();
   };
 
-  const onSelected = (id: string | number | null) => {
+  const onSelected = (id: string | number | null, remainingSeconds: number | null = null) => {
     const thing = props.things.find((t: ThingType) => t.id === id) || {
       durationMinutes: 0,
     };
+
     setShowTimer(true);
-    setMaxTimer(thing.durationMinutes * 60);
+    setMaxTimer(remainingSeconds || thing.durationMinutes * 60);
+
+    const activeSessions: SessionType[] = props.sessions.filter((s: SessionType) => (s.completed === false));
+    activeSessions.forEach((s: SessionType) => {
+      props.deleteSessionProp(s.id);
+    });
+
     props.addSessionProp(id);
     fadeIn();
   };
@@ -83,12 +93,26 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
     // TODO: Seva?!
   };
 
-  const onComplete = () => {
+  const onComplete = (elapsed: number) => {
+    Alert.alert('Done!', `elapsed ${elapsed}`);
+    const activeSession: SessionType = props.sessions.find((s: SessionType) => (s.completed === false));
+    activeSession.completed = true;
+    activeSession.elapsedMinutes = elapsed;
+
+    props.editSessionProp(activeSession);
+
     setShowTimer(false);
-    setMaxTimer(69);
+    setMaxTimer(100);
     fadeOut();
   };
 
+  React.useEffect(() => {
+    const activeSession: SessionType = props.sessions.find((s: SessionType) => (s.completed === false));
+    if (activeSession) {
+      const secondsElapsed = (new Date()).getTime() - (new Date(activeSession.date)).getTime();
+      onSelected(activeSession.thingId, Math.floor(secondsElapsed * 0.001));
+    }
+  }, []);
 
 
   return (
