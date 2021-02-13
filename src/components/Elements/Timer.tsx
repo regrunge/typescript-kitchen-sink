@@ -40,7 +40,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
   const textStyle = start ? styles.text : styles.textCompleted;
 
   const onCompleted = () => {
-    props.onComplete(counter);
+    props.onComplete();
     setCounter(0);
     setCompleted(true);
     setStart(false);

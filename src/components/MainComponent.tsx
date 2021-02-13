@@ -79,11 +79,6 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
     setShowTimer(true);
     setMaxTimer(thing.durationMinutes * 60 - elapsedSeconds);
 
-    const activeSessions: SessionType[] = props.sessions.filter((s: SessionType) => (s.completed === false));
-    activeSessions.forEach((s: SessionType) => {
-      props.deleteSessionProp(s.id);
-    });
-
     props.addSessionProp(id);
     fadeIn();
   };
@@ -93,11 +88,15 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
     // TODO: Seva?!
   };
 
-  const onComplete = (elapsed: number) => {
-    Alert.alert('Done!', `elapsed ${elapsed}`);
-    const activeSession: SessionType = props.sessions.find((s: SessionType) => (s.completed === false));
+  const onComplete = () => {
+    const activeSession: SessionType = { ...props.sessions.find((s: SessionType) => (s.completed === false)) };
+    const secondsElapsed = (new Date()).getTime() - (new Date(activeSession.date)).getTime();
+    Alert.alert('Done!', `
+    elapsed ${secondsElapsed * 0.001}
+    ${(new Date()).getTime()} - ${(new Date(activeSession.date)).getTime()}
+    `);
     activeSession.completed = true;
-    activeSession.elapsedMinutes = elapsed;
+    activeSession.elapsedMinutes = Math.floor(secondsElapsed * 0.001);
 
     props.editSessionProp(activeSession);
 
