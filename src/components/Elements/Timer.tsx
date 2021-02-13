@@ -94,6 +94,7 @@ const Timer: React.FC<TimerProps> = (props: TimerProps) => {
         duration={1000}
         easing={Easing.linear}
         style={styles.timer}
+        padding={8}
         renderCap={({ center }) => (
             <>
               <Circle cx={center.x} cy={center.y} r="8" fill="black" />

@@ -71,13 +71,13 @@ const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props
     }).start();
   };
 
-  const onSelected = (id: string | number | null, remainingSeconds: number | null = null) => {
+  const onSelected = (id: string | number | null, elapsedSeconds: number = 0) => {
     const thing = props.things.find((t: ThingType) => t.id === id) || {
       durationMinutes: 0,
     };
 
     setShowTimer(true);
-    setMaxTimer(remainingSeconds || thing.durationMinutes * 60);
+    setMaxTimer(thing.durationMinutes * 60 - elapsedSeconds);
 
     const activeSessions: SessionType[] = props.sessions.filter((s: SessionType) => (s.completed === false));
     activeSessions.forEach((s: SessionType) => {
