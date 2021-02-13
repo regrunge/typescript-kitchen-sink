@@ -9,6 +9,8 @@ export const strToUpperWithPrefix = (
   return prefix + ' ' + str.toUpperCase();
 };
 
+
+
 export const daysOfTheWeek = [
   {name: 'Monday', id: 0},
   {name: 'Tuesday', id: 1},

@@ -8,6 +8,7 @@ type ListProps = {
   things: ThingType[];
   navigation: any;
   onSelected: (thing: string | number | null) => void;
+  onDelete: (thing: string | number | null) => void;
 };
 
 const sortingByTitle = (things: DataItem[]) => {
@@ -41,6 +42,11 @@ const List: React.FC<ListProps> = (props: ListProps) => {
     props.navigation.navigate('CRUD', {id});
   };
 
+  const onDelete = (id: string | number) => {
+    // props.onDelete(id);
+    // TODO: Seva?
+  };
+
   const handleReset = () => {};
 
   return (
@@ -54,6 +60,7 @@ const List: React.FC<ListProps> = (props: ListProps) => {
             key={index}
             onPress={onPress}
             onLongPress={onLongPress}
+            onDelete={onDelete}
           />
         )}
       />

@@ -1,24 +1,29 @@
-import { EDIT_THING, DELETE_THING, ADD_SESSION} from '../actions';
-import {ThingType} from '../../models/thing';
-import { SessionType } from '../../models/session';
+import {ADD_SESSION, DELETE_SESSION, EDIT_SESSION, RESET_SESSIONS} from '../actions';
+import {SessionType} from "../../models/session";
 
-export const sessionThing = (thing: SessionType) => {
+export const addSession = (thingId: string | number | null) => {
   return {
     type: ADD_SESSION,
-    thing,
+    thingId,
   };
 };
 
-export const deleteThing = (id: string) => {
+export const editSession = (session: SessionType) => {
   return {
-    type: DELETE_THING,
+    type: EDIT_SESSION,
+    session,
+  };
+};
+
+export const deleteSession = (id: string | number | null) => {
+  return {
+    type: DELETE_SESSION,
     id,
   };
 };
 
-export const editThing = (thing: ThingType) => {
+export const resetSessions = () => {
   return {
-    type: EDIT_THING,
-    thing,
+    type: RESET_SESSIONS,
   };
 };

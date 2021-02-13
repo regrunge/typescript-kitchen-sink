@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Button, Animated, Easing } from 'react-native';
+import { View, Text, Image, Button, Animated, Easing, Alert } from 'react-native';
 import {Link, RouteProp} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -7,12 +7,13 @@ import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import Timer from './Elements/Timer';
 import itemStyles from './Elements/styles/itemStyles';
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {ThingType} from '../models/thing';
 import Thing from '../models/thing';
-import { addThing, deleteThing, editThing, sessionThing } from '../redux/dispatch/things';
+import { addThing, deleteThing, editThing } from '../redux/dispatch/things';
+import { addSession, editSession, deleteSession } from "../redux/dispatch/sessions";
+
 import LinearGradient from 'react-native-linear-gradient';
-import {Icon} from 'react-native-elements';
 import {SessionType} from '../models/session';
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
@@ -28,21 +29,24 @@ type Props = {
 const mapStateToProps = (state: any, ownProps: Props) => {
   return {
     things: state.things,
+    sessions: state.sessions,
   };
 };
 
 const mapDispatchToProps = {
   addThingProp: (thing: Thing) => addThing(thing), // REDUX action
   editThingProp: (thing: Thing) => editThing(thing), // REDUX action
-  deleteThingProp: (thing: Thing) => deleteThing(thing),
-  sessionThingProp: (thing: SessionType) => sessionThing(thing),
+  deleteThingProp: (thingId: string | number | null) => deleteThing(thingId),
+  addSessionProp: (thingId: string | number | null) => addSession(thingId),
+  editSessionProp: (session: SessionType) => editSession(session),
+  deleteSessionProp: (sessionId: string | number | null) => deleteSession(sessionId),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const imageSrc = require('./../img/rose.png');
 
-const MainComponent: React.FC<Props> = (props) => {
+const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props) => {
   const {navigation, route} = props;
   const [showTimer, setShowTimer] = React.useState(false);
   const [maxTimer, setMaxTimer] = React.useState(69);
@@ -67,25 +71,49 @@ const MainComponent: React.FC<Props> = (props) => {
     }).start();
   };
 
-  const onSelected = (id: string | number | null) => {
+  const onSelected = (id: string | number | null, elapsedSeconds: number = 0) => {
+    // TODO: Seva! If there is an active session OR showTimer is true DO NOT execute this code
+
     const thing = props.things.find((t: ThingType) => t.id === id) || {
       durationMinutes: 0,
     };
+
     setShowTimer(true);
-    setMaxTimer(thing.durationMinutes * 60);
+    setMaxTimer(thing.durationMinutes * 60 - elapsedSeconds);
+
+    props.addSessionProp(id);
     fadeIn();
   };
 
-  const onDeleted = id = e => {
-    const thing = props.things.find((t: ThingType) => t.id === id);
+  const onDeleted = (id: string | number | null) => {
+    // const thing = props.things.find((t: ThingType) => t.id === id);
+    // TODO: Seva?!
   };
 
   const onComplete = () => {
+    const activeSession: SessionType = { ...props.sessions.find((s: SessionType) => (s.completed === false)) };
+    const secondsElapsed = (new Date()).getTime() - (new Date(activeSession.date)).getTime();
+    Alert.alert('Done!', `
+    elapsed ${secondsElapsed * 0.001}
+    ${(new Date()).getTime()} - ${(new Date(activeSession.date)).getTime()}
+    `);
+    activeSession.completed = true;
+    activeSession.elapsedMinutes = Math.floor(secondsElapsed * 0.001);
+
+    props.editSessionProp(activeSession);
+
     setShowTimer(false);
-    setMaxTimer(69);
+    setMaxTimer(100);
     fadeOut();
   };
 
+  React.useEffect(() => {
+    const activeSession: SessionType = props.sessions.find((s: SessionType) => (s.completed === false));
+    if (activeSession) {
+      const secondsElapsed = (new Date()).getTime() - (new Date(activeSession.date)).getTime();
+      onSelected(activeSession.thingId, Math.floor(secondsElapsed * 0.001));
+    }
+  }, []);
 
 
   return (
@@ -118,18 +146,22 @@ const MainComponent: React.FC<Props> = (props) => {
 
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom} >
-        {/* TODO: follow the onSelected to add a onDeleted */}
+        {/* TODO: Seva, follow the onSelected to add a onDeleted */}
+        {/* TODO: Seva, fix the style of ListItems */}
         <List
           navigation={navigation}
           onSelected={onSelected}
-          onDeleted={onDeleted}
+          onDelete={onDeleted}
         />
 
+        {/* TODO: Seva, move the create Task button on TOP RIGHT */}
         <Link to="/CRUD">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Create</Text>
           </View>
         </Link>
+
+        {/* TODO: Seva, move the report button on TOP LEFT */}
         <Link to="/Reports">
           <View style={itemStyles.buttonContainerSmall}>
             <Text style={itemStyles.buttonText}>Reports</Text>

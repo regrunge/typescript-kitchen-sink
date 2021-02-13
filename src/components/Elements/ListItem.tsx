@@ -11,6 +11,7 @@ type ItemProps = {
   index: number;
   onPress: (id: string | number) => void;
   onLongPress: (id: string | number) => void;
+  onDelete: (id: string | number) => void;
 };
 
 export type DataItem = {
@@ -64,16 +65,17 @@ const ListItem: React.FC<ItemProps> = (props: ItemProps) => {
               <Icon name={'cancel'} style={[styles.icon, styles.iconError]} />
             )}
           </View>
-          {/* TODO: add delete button for thing*/}
+          {/* TODO: SEVA! add delete button for thing*/}
         </View>
         <View>{renderDaysOfTheWeek()}</View>
       </Card>
     </TouchableOpacity>
-        <View>
-          {/* TODO: add delete button for thing*/}
-          <Text>DELETE</Text>
-        </View>
-        </>
+      <View>
+        {/* TODO: SEVA! add delete button for thing*/}
+        <Text>DELETE</Text>
+        <Icon name={'cancel'} style={[styles.icon, styles.iconError]} />
+      </View>
+    </>
   );
 };
 

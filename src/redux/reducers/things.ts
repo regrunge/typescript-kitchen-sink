@@ -22,14 +22,9 @@ const things = (state: ThingType[] = [], action: any) => {
       clone.splice(selectedThingIndexTBD, 1);
 
       return clone;
-    case actions.COMPLETE_THING:
-      // DO STUFF
-
-      return clone;
     default:
       return state;
   }
 };
 
 export default things;
-// TODO: Seva! duplicte this file

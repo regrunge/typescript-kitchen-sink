@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from 'redux';
-import thingsReducer from "./reducers/things"; // TODO: Seva!
-import { persistStore, persistReducer } from 'redux-persist'
+import thingsReducer from "./reducers/things";
+import sessionsReducer from "./reducers/sessions";
+import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const rootReducer = combineReducers({ things: thingsReducer }); // TODO: Seva!
+const rootReducer = combineReducers({ things: thingsReducer, sessions: sessionsReducer });
 
 const persistConfig = {
     key: 'root',
