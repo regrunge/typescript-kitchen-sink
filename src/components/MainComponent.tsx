@@ -7,12 +7,13 @@ import {RootStackParamList} from '../navigation/MainStack';
 import List from './Elements/List';
 import Timer from './Elements/Timer';
 import itemStyles from './Elements/styles/itemStyles';
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {ThingType} from '../models/thing';
 import Thing from '../models/thing';
-import { addThing, deleteThing, editThing, sessionThing } from '../redux/dispatch/things';
+import { addThing, deleteThing, editThing } from '../redux/dispatch/things';
+import { addSession } from "../redux/dispatch/sessions";
+
 import LinearGradient from 'react-native-linear-gradient';
-import {Icon} from 'react-native-elements';
 import {SessionType} from '../models/session';
 
 type MainScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
@@ -34,15 +35,15 @@ const mapStateToProps = (state: any, ownProps: Props) => {
 const mapDispatchToProps = {
   addThingProp: (thing: Thing) => addThing(thing), // REDUX action
   editThingProp: (thing: Thing) => editThing(thing), // REDUX action
-  deleteThingProp: (thing: Thing) => deleteThing(thing),
-  sessionThingProp: (thing: SessionType) => sessionThing(thing),
+  deleteThingProp: (thingId: string | number | null) => deleteThing(thingId),
+  addSessionProp: (thingId: string | number | null) => addSession(thingId),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const imageSrc = require('./../img/rose.png');
 
-const MainComponent: React.FC<Props> = (props) => {
+const MainComponent: React.FC<Props & ConnectedProps<typeof connector>> = (props) => {
   const {navigation, route} = props;
   const [showTimer, setShowTimer] = React.useState(false);
   const [maxTimer, setMaxTimer] = React.useState(69);
@@ -73,11 +74,13 @@ const MainComponent: React.FC<Props> = (props) => {
     };
     setShowTimer(true);
     setMaxTimer(thing.durationMinutes * 60);
+    props.addSessionProp(id);
     fadeIn();
   };
 
-  const onDeleted = id = e => {
-    const thing = props.things.find((t: ThingType) => t.id === id);
+  const onDeleted = (id: string | number | null) => {
+    // const thing = props.things.find((t: ThingType) => t.id === id);
+    // TODO: Seva?!
   };
 
   const onComplete = () => {
@@ -118,11 +121,11 @@ const MainComponent: React.FC<Props> = (props) => {
 
       {/*Bottom part*/}
       <View style={itemStyles.containerChildBottom} >
-        {/* TODO: follow the onSelected to add a onDeleted */}
+        {/* TODO: Seva, follow the onSelected to add a onDeleted */}
         <List
           navigation={navigation}
           onSelected={onSelected}
-          onDeleted={onDeleted}
+          onDelete={onDeleted}
         />
 
         <Link to="/CRUD">

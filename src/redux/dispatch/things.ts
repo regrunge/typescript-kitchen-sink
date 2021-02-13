@@ -8,7 +8,7 @@ export const addThing = (thing: ThingType) => {
   };
 };
 
-export const deleteThing = (id: string) => {
+export const deleteThing = (id: string | number | null) => {
   return {
     type: DELETE_THING,
     id,
@@ -21,7 +21,3 @@ export const editThing = (thing: ThingType) => {
     thing,
   };
 };
-
-// TODO: Seva! duplicte this file
-export class completeThing {
-}

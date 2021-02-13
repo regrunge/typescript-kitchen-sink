@@ -1,30 +1,21 @@
 import actions from '../actions';
-import { SessionType } from '../../models/session';
+import Session, { SessionType } from '../../models/session';
+const uuid = require('react-native-uuid');
 
-
-const things = (state: SessionType[] = [], action: any) => {
+const sessions = (state: SessionType[] = [], action: any) => {
   const clone = [...state];
 
   switch (action.type) {
     case actions.ADD_SESSION:
-      clone.push(action.thing);
-
-      return clone;
-    case actions.EDIT_THING:
-      const selectedThingIndex = clone.findIndex(
-        (t) => t.id === action.thing.id,
+      const newSession: SessionType = new Session(
+        uuid.v4(),
+        action.thingId,
+        new Date(),
+        0,
+        false,
       );
 
-      clone.splice(selectedThingIndex, 1, action.thing);
-
-      return clone;
-    case actions.DELETE_THING:
-      const selectedThingIndexTBD = clone.findIndex((t) => t.id === action.id);
-      clone.splice(selectedThingIndexTBD, 1);
-
-      return clone;
-    case actions.COMPLETE_THING:
-      // DO STUFF
+      clone.push(newSession);
 
       return clone;
     default:
@@ -32,4 +23,4 @@ const things = (state: SessionType[] = [], action: any) => {
   }
 };
 
-export default things;
+export default sessions;
